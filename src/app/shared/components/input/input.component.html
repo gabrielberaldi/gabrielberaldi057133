@@ -1,0 +1,24 @@
+<div class="form-control w-full">
+  <label class="label">
+    <span class="label-text font-semibold">
+      {{ label }}
+    </span>
+  </label>
+  <div class="relative">
+    <input 
+      class="input input-bordered w-full" 
+      [class.input-error]="isInvalid"
+      [disabled]="disabled"
+      [placeholder]="placeholder" 
+      [type]="type" 
+      (blur)="onTouched()"
+      (input)="onInput($event)"/>
+  </div>
+  @if (isInvalid) {
+    <label class="label">
+      <span class="label-text-alt text-error">
+        {{ getErrorMessage() }}
+      </span>
+    </label>
+  }
+</div>
