@@ -28,7 +28,7 @@ export class LoginComponent {
       return;
     };
     const credentials = this.loginForm.getRawValue() as UserCredentials;
-    this.authFacade.login(credentials);
+    this.authFacade.login(credentials).subscribe();
   }
 
 }
