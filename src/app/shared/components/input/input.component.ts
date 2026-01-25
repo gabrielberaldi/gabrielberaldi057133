@@ -1,5 +1,5 @@
 import { Component, inject, Input, Optional, Self } from '@angular/core';
-import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-input',
@@ -41,7 +41,9 @@ export class InputComponent implements ControlValueAccessor {
 
   get isRequired(): boolean { 
     const control = this.ngControl?.control;
-    return !!control && control.hasError('required');
+    if (!control || !control.validator) return false;
+    const validator = control?.validator?.({} as AbstractControl);
+    return !!validator && validator['required'];
   }
 
   getErrorMessage(): string { 
