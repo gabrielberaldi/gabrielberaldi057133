@@ -1,7 +1,10 @@
 <div class="form-control w-full">
   <label class="label">
-    <span class="label-text font-semibold">
+    <span class="label-text font-semibold text-sm">
       {{ label }}
+      @if (isRequired) {
+        <span class="text-sm">*</span>
+      }
     </span>
   </label>
   <div class="relative">
@@ -16,7 +19,7 @@
   </div>
   @if (isInvalid) {
     <label class="label">
-      <span class="label-text-alt text-error">
+      <span class="label-text-alt text-error text-sm">
         {{ getErrorMessage() }}
       </span>
     </label>

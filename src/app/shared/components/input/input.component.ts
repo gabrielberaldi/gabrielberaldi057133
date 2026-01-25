@@ -39,6 +39,11 @@ export class InputComponent implements ControlValueAccessor {
     return !!control && control.invalid && (control.dirty || control.touched);
   }
 
+  get isRequired(): boolean { 
+    const control = this.ngControl?.control;
+    return !!control && control.hasError('required');
+  }
+
   getErrorMessage(): string { 
     const errors = this.ngControl?.control?.errors;
     if (!errors) return '';
