@@ -2,11 +2,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MenuItem } from '../../../configs/menu-config';
 import { LucideAngularModule, LucideIconData } from 'lucide-angular';
+import { BreadcrumbComponent } from '../../../../shared/components/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [LucideAngularModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [LucideAngularModule, RouterLink, RouterLinkActive, BreadcrumbComponent, RouterOutlet],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })

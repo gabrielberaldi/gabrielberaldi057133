@@ -4,13 +4,13 @@ import { MENU_ITEMS } from '../configs/menu-config';
 import { LayoutFacade } from '../facades/layout.facade';
 import { AsyncPipe } from '@angular/common';
 import { AuthFacade } from '../auth/facades/auth.facade';
-import { PanelRightCloseIcon } from 'lucide-angular';
+import { LucideAngularModule, PanelRightCloseIcon } from 'lucide-angular';
 
 
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [SidebarComponent, AsyncPipe],
+  imports: [SidebarComponent, AsyncPipe, LucideAngularModule],
   templateUrl: './shell.component.html',
   styleUrl: './shell.component.scss'
 })
