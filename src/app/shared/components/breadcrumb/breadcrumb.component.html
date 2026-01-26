@@ -1,0 +1,20 @@
+<div class="breadcrumbs w-full bg-white text-sm shadow-sm p-4 mb-4 h-32 ">
+  <ul>
+    @for (item of items; track item.label; let last = $last; let first = $first) {
+      <li>
+        @if (item.link && !last) {
+          <a class="hover:underline" [routerLink]="item.link">
+            @if (first) {
+              <lucide-icon size="16" [img]="ArrowLeftIcon"></lucide-icon>    
+            }
+            {{ item.label }}
+          </a>
+        } @else {
+          <span class="text-base-content/60">
+            {{ item.label }}
+          </span>
+        }
+      </li>
+    }
+  </ul>
+</div>
