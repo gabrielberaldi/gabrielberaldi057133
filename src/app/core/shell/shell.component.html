@@ -1,1 +1,7 @@
-<app-sidebar [menuItems]="menuItems"></app-sidebar>
+<app-sidebar 
+  [isSidebarOpen]="layoutFacade.isSidebarOpen$ | async"
+  [menuItems]="menuItems"
+  [sidebarIcon]="(layoutFacade.sidebarIcon$ | async) ?? PanelRightCloseIcon"
+  (logout)="authFacade.logout()"  
+  (toggleSidebar)="layoutFacade.toggleSidebar()">
+</app-sidebar>

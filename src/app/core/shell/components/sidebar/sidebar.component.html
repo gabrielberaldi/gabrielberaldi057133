@@ -1,8 +1,21 @@
 <div class="drawer lg:drawer-open">
-  <input class="drawer-toggle" id="main-drawer" type="checkbox" />
+  <input 
+    class="drawer-toggle" 
+    id="main-drawer" 
+    type="checkbox"
+    [checked]="isSidebarOpen"
+    (change)="toggleSidebar.emit()" 
+  />
   
   <div class="drawer-content">
-    <app-navbar></app-navbar>
+    <nav class="navbar w-full bg-base-300 shadow-sm">
+      <label for="main-drawer" aria-label="open sidebar" class="btn btn-square btn-ghost">
+        <lucide-icon size="16" [img]="sidebarIcon"></lucide-icon>
+      </label>
+      <div class="px-4">
+        Pet Manager
+      </div>
+    </nav>
     <main class="p-6"> 
       <router-outlet></router-outlet>
     </main>

@@ -1,25 +1,27 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { NavbarComponent } from '../navbar/navbar.component';
-import { AuthFacade } from '../../../auth/facades/auth.facade';
 import { MenuItem } from '../../../configs/menu-config';
-import { LucideAngularModule } from 'lucide-angular';
+import { LucideAngularModule, LucideIconData } from 'lucide-angular';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [LucideAngularModule, NavbarComponent, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [LucideAngularModule, RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
 
+  @Input({ required: true, transform: (value: boolean | null) => value ?? true }) 
+  isSidebarOpen!: boolean;
   @Input({ required: true }) menuItems!: MenuItem[];
+  @Input({ required: true }) sidebarIcon!: LucideIconData;
 
-  private readonly authFacade = inject(AuthFacade);
-  
-  onLogout(): void {
-    this.authFacade.logout();
+  @Output() logout = new EventEmitter<void>();
+  @Output() toggleSidebar = new EventEmitter<void>();
+
+  onClick(): void {
+    this.logout.emit();
   }
 
 }
