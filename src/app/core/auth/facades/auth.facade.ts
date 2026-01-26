@@ -25,7 +25,7 @@ export class AuthFacade {
     return this.authService.login(userCredentials).pipe(
       tap(response => {
         this.updateSession(response);
-        this.router.navigate(['/layout']);
+        this.router.navigate(['/shell']);
       })
     )
   }
