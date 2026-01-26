@@ -1,1 +1,32 @@
-<p>sidebar works!</p>
+<div class="drawer lg:drawer-open">
+  <input class="drawer-toggle" id="main-drawer" type="checkbox" />
+  
+  <div class="drawer-content">
+    <app-navbar></app-navbar>
+    <main class="p-6"> 
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  <aside class="drawer-side is-drawer-close:overflow-visible">
+    <label class="drawer-overlay" for="main-drawer"></label>
+    <div class="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
+      <ul class="menu w-full grow">
+        @for (item of menuItems; track item.label) { 
+          <li class="pb-1">
+            <a class="flex items-center gap-3 is-drawer-close:tooltip is-drawer-close:tooltip-right" 
+              routerLinkActive="menu-active" 
+              [attr.data-tip]="item.label"
+              [routerLink]="item.route">
+              <lucide-icon size="16" [img]="item.icon"></lucide-icon>
+              <span class="is-drawer-close:hidden">
+                {{ item.label }}
+              </span>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  </aside>
+
+</div>
