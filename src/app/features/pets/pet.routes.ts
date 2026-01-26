@@ -14,5 +14,6 @@ export const PET_ROUTES: Route[] = [
   {
     path: '',
     redirectTo: 'list',
+    pathMatch: 'full'
   }
 ];
