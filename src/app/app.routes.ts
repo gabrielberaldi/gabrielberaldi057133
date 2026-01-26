@@ -8,7 +8,7 @@ export const routes: Routes = [
   },
   { 
     path: 'shell', 
-    loadComponent: () => import('./core/shell/shell.component').then(m => m.ShellComponent),
+    loadChildren: () => import('./core/shell/shell.routes').then(m => m.SHELL_ROUTES),
     canActivate: [authGuard],
   },
   {
