@@ -1,0 +1,25 @@
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChevronRight, LucideAngularModule, PawPrint } from 'lucide-angular';
+import { Pet } from '../../../models/pet.model';
+
+@Component({
+  selector: 'app-pet-card',
+  standalone: true,
+  imports: [LucideAngularModule],
+  templateUrl: './pet-card.component.html',
+  styleUrl: './pet-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class PetCardComponent {
+
+  @Input({ required: true }) pet!: Pet;
+  @Output() viewDetails = new EventEmitter<number>();
+
+  protected readonly PawPrint = PawPrint;
+  protected readonly ChevronRight = ChevronRight;
+
+  protected onDetail(): void {
+    this.viewDetails.emit(this.pet.id);
+  }
+
+}
