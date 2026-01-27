@@ -8,7 +8,7 @@ export const PET_ROUTES: Route[] = [
     component: PetsListComponent,
   },
   {
-    path: 'detail',
+    path: 'details/:id',
     component: PetsDetailComponent,
   },
   {
