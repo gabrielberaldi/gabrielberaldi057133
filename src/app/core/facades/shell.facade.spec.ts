@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LayoutFacade } from './layout.facade';
+import { ShellFacade } from './shell.facade';
 
-describe('LayoutFacade', () => {
-  let facade: LayoutFacade;
+describe('ShellFacade', () => {
+  let facade: ShellFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    facade = TestBed.inject(LayoutFacade);
+    facade = TestBed.inject(ShellFacade);
   });
 
   it('should be created', () => {

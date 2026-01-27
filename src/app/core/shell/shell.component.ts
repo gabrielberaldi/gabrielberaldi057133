@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MENU_ITEMS } from '../configs/menu-config';
-import { LayoutFacade } from '../facades/layout.facade';
+import { ShellFacade } from '../facades/shell.facade';
 import { AsyncPipe } from '@angular/common';
 import { AuthFacade } from '../auth/facades/auth.facade';
 import { LucideAngularModule, PanelRightCloseIcon } from 'lucide-angular';
@@ -17,7 +17,7 @@ import { LucideAngularModule, PanelRightCloseIcon } from 'lucide-angular';
 export class ShellComponent {
 
   protected readonly authFacade = inject(AuthFacade);
-  protected readonly layoutFacade = inject(LayoutFacade);
+  protected readonly shellFacade = inject(ShellFacade);
   
   protected readonly menuItems = MENU_ITEMS;
   protected readonly PanelRightCloseIcon = PanelRightCloseIcon;

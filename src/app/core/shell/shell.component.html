@@ -1,7 +1,7 @@
 <header class="navbar w-full bg-white z-40 shadow-sm">
   <div class="flex-none lg:hidden">
     <label for="main-drawer" class="btn btn-square btn-ghost">
-      <lucide-icon size="16" [img]="(layoutFacade.sidebarIcon$ | async) ?? PanelRightCloseIcon"></lucide-icon>
+      <lucide-icon size="16" [img]="(shellFacade.sidebarIcon$ | async) ?? PanelRightCloseIcon"></lucide-icon>
     </label>
   </div>
   <div class="px-4">
@@ -10,9 +10,9 @@
 </header>
  
 <app-sidebar 
-  [isSidebarOpen]="layoutFacade.isSidebarOpen$ | async"
+  [isSidebarOpen]="shellFacade.isSidebarOpen$ | async"
   [menuItems]="menuItems"
-  [sidebarIcon]="(layoutFacade.sidebarIcon$ | async) ?? PanelRightCloseIcon"
+  [sidebarIcon]="(shellFacade.sidebarIcon$ | async) ?? PanelRightCloseIcon"
   (logout)="authFacade.logout()"  
-  (toggleSidebar)="layoutFacade.toggleSidebar()">
+  (toggleSidebar)="shellFacade.toggleSidebar()">
 </app-sidebar>
