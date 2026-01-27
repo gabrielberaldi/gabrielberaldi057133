@@ -1,22 +1,32 @@
 <div class="form-control w-full">
-  <label class="label">
-    <span class="label-text font-semibold text-sm">
-      {{ label }}
-      @if (isRequired) {
-        <span class="text-sm">*</span>
-      }
-    </span>
-  </label>
-  <div class="relative">
+  @if (label) {
+    <label class="label">
+      <span class="label-text font-semibold text-sm">
+        {{ label }}
+        @if (isRequired) {
+          <span class="text-sm">*</span>
+        }
+      </span>
+    </label>
+  }
+  <div class="relative flex items-center">
+    @if (icon) {
+      <div class="absolute left-4 z-10 text-base-content/50">
+        <lucide-angular [name]="icon" [size]="18"></lucide-angular>
+      </div>
+    }
+
     <input 
       class="input input-bordered w-full" 
       [class.input-error]="isInvalid"
+      [class.pl-11]="icon"
       [disabled]="disabled"
       [placeholder]="placeholder" 
       [type]="type" 
       (blur)="onTouched()"
       (input)="onInput($event)"/>
   </div>
+  
   @if (isInvalid) {
     <label class="label">
       <span class="label-text-alt text-error text-sm">

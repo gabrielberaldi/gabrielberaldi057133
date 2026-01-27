@@ -1,16 +1,18 @@
 import { Component, inject, Input, Optional, Self } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { LucideAngularModule, LucideIconData } from 'lucide-angular';
 
 @Component({
   selector: 'app-input',
   standalone: true,
-  imports: [ ReactiveFormsModule ],
+  imports: [ LucideAngularModule, ReactiveFormsModule ],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
 })
 export class InputComponent implements ControlValueAccessor {
 
-  @Input({ required: true }) label!: string;
+  @Input() icon?: LucideIconData;
+  @Input() label?: string;
   @Input() placeholder: string = '';
   @Input({ required: true }) type!: 'text' | 'password';
 
@@ -26,7 +28,7 @@ export class InputComponent implements ControlValueAccessor {
   private value = '';
 
   onChange: any = () => {};
-  onTouched: any = () => {}
+  onTouched: any = () => {};
 
   constructor() {
     if (!!this.ngControl) {
