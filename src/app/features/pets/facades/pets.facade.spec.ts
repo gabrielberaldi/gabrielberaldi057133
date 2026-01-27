@@ -3,14 +3,14 @@ import { PetsFacade } from './pets.facade';
 
 
 describe('PetsFacade', () => {
-  let service: PetsFacade;
+  let facade: PetsFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PetsFacade);
+    facade = TestBed.inject(PetsFacade);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(facade).toBeTruthy();
   });
 });
