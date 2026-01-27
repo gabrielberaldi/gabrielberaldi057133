@@ -3,6 +3,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MenuItem } from '../../../configs/menu-config';
 import { LucideAngularModule, LucideIconData } from 'lucide-angular';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { Breadcrumb } from '../../../models/breadcrumb.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,6 +14,8 @@ import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 })
 export class SidebarComponent {
 
+  @Input({ required: true, transform: (value: Breadcrumb[] | null) => value ?? [] }) 
+  breadCrumbs!: Breadcrumb[];
   @Input({ required: true, transform: (value: boolean | null) => value ?? true }) 
   isSidebarOpen!: boolean;
   @Input({ required: true }) menuItems!: MenuItem[];

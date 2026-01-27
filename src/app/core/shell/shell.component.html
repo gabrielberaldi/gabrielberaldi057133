@@ -9,7 +9,8 @@
   </div>
 </header>
  
-<app-sidebar 
+<app-sidebar
+  [breadCrumbs]="shellFacade.breadCrumbs$ | async" 
   [isSidebarOpen]="shellFacade.isSidebarOpen$ | async"
   [menuItems]="menuItems"
   [sidebarIcon]="(shellFacade.sidebarIcon$ | async) ?? PanelRightCloseIcon"

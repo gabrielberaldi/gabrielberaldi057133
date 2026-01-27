@@ -8,13 +8,13 @@
   />
   
   <div class="drawer-content">
-    <app-breadcrumb [items]="[{ label: 'pets', link: '/shell/pets' }]"></app-breadcrumb>
+    <app-breadcrumb [items]="breadCrumbs"></app-breadcrumb>
     <main class="p-6">
       <router-outlet></router-outlet>
     </main>
   </div>
 
-  <aside class="drawer-side is-drawer-close:overflow-visible">
+  <aside class="drawer-side is-drawer-close:overflow-visible shadow-sm z-10">
     <label class="drawer-overlay" for="main-drawer"></label>
     <nav class="flex min-h-full flex-col items-start bg-white shadow-sm z-1 is-drawer-close:w-14 is-drawer-open:w-64">
 
