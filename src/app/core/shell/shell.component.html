@@ -10,7 +10,7 @@
 </header>
  
 <app-sidebar
-  [breadCrumbs]="shellFacade.breadCrumbs$ | async" 
+  [config]="shellFacade.breadcrumbConfig$ | async" 
   [isSidebarOpen]="shellFacade.isSidebarOpen$ | async"
   [menuItems]="menuItems"
   [sidebarIcon]="(shellFacade.sidebarIcon$ | async) ?? PanelRightCloseIcon"

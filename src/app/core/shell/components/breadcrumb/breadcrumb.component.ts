@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Breadcrumb } from '../../../models/breadcrumb.model';
+import { BreadcrumbConfig } from '../../../models/breadcrumb-config.model';
 import { RouterLink } from '@angular/router';
 import { ArrowLeftIcon, LucideAngularModule } from 'lucide-angular';
 
@@ -12,7 +12,7 @@ import { ArrowLeftIcon, LucideAngularModule } from 'lucide-angular';
 })
 export class BreadcrumbComponent {
 
-  @Input({ required: true }) items!: Breadcrumb[];
+  @Input({ required: true }) config!: BreadcrumbConfig;
 
   protected readonly ArrowLeftIcon = ArrowLeftIcon;
 

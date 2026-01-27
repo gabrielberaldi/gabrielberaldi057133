@@ -1,20 +1,42 @@
-<div class="breadcrumbs w-full bg-white text-sm shadow-sm p-4 h-32 ">
-  <ul>
-    @for (item of items; track item.label; let last = $last; let first = $first) {
-      <li>
-        @if (item.link && !last) {
-          <a class="hover:underline" [routerLink]="item.link">
-            @if (first) {
-              <lucide-icon size="16" [img]="ArrowLeftIcon"></lucide-icon>    
+<nav class="w-full bg-base-100 px-6 py-6 border-b border-base-200 shadow-sm">
+  <div class="flex items-center justify-between gap-4">
+    
+    <div class="breadcrumbs text-sm overflow-x-auto whitespace-nowrap">
+      <ul class="flex items-center">
+        @for (item of config.breadcrumbs; track item.label; let last = $last; let first = $first) {
+          <li class="flex items-center">
+            @if (item.link && !last) {
+              <a class="flex items-center gap-2 text-base-content/70 hover:text-primary transition-colors font-medium group" 
+                 [routerLink]="item.link">
+                @if (first) {
+                  <lucide-icon 
+                    class="group-hover:-translate-x-1 transition-transform"
+                    size="18" 
+                    [img]="ArrowLeftIcon">
+                  </lucide-icon> 
+                }
+                {{ item.label }}
+              </a>
+            } @else {
+              <span class="font-bold text-lg md:text-xl text-base-content flex items-center gap-2">
+                {{ item.label }}
+              </span>
             }
-            {{ item.label }}
-          </a>
-        } @else {
-          <span class="text-base-content/60">
-            {{ item.label }}
-          </span>
+          </li>
         }
-      </li>
+      </ul>
+    </div>
+
+    @if (config.button) {
+      <div class="shrink-0">
+        <button 
+          class="btn btn-primary shadow-md gap-2"
+          [routerLink]="config.button.link">
+          <lucide-angular [img]="config.button.icon" size="20"></lucide-angular>
+          {{ config.button.label }}
+        </button>
+      </div>
     }
-  </ul>
-</div>
+
+  </div>
+</nav>
