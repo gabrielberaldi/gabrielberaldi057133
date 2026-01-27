@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Breadcrumb } from '../../../auth/models/breadcrumb.model';
+import { Breadcrumb } from '../../../models/breadcrumb.model';
 import { RouterLink } from '@angular/router';
 import { ArrowLeftIcon, LucideAngularModule } from 'lucide-angular';
 

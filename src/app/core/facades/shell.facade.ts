@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PanelRightCloseIcon, PanelRightOpenIcon } from 'lucide-angular';
 import { BehaviorSubject, map } from 'rxjs';
-import { Breadcrumb } from '../auth/models/breadcrumb.model';
+import { Breadcrumb } from '../models/breadcrumb.model';
 
 @Injectable({
   providedIn: 'root'
