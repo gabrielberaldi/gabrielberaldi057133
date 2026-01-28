@@ -5,12 +5,13 @@ import { ShellFacade } from '../facades/shell.facade';
 import { AsyncPipe } from '@angular/common';
 import { AuthFacade } from '../auth/facades/auth.facade';
 import { LucideAngularModule, PanelRightCloseIcon } from 'lucide-angular';
+import { DialogComponent } from '../../shared/components/dialog/dialog.component';
 
 
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [SidebarComponent, AsyncPipe, LucideAngularModule],
+  imports: [DialogComponent, AsyncPipe, LucideAngularModule, SidebarComponent],
   templateUrl: './shell.component.html',
   styleUrl: './shell.component.scss'
 })
