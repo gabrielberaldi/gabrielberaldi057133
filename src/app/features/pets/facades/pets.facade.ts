@@ -38,6 +38,12 @@ export class PetsFacade {
     this._filters$.next({ ...this._filters$.value, page });
   }
 
+  deletePet(petId: number): Observable<void> {
+    return this.petsService.delete(petId).pipe(
+      tap(() => this.router.navigate(['/shell/pets/list']))
+    )
+  }
+
   loadPet(id: number): Observable<Pet> {
     this._loading$.next(true);
     return this.petsService.getById(id).pipe(

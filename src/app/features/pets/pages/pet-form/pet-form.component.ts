@@ -6,9 +6,11 @@ import { InputComponent } from '../../../../shared/components/input/input.compon
 import { LucideAngularModule, PawPrintIcon } from 'lucide-angular';
 import { PetsFacade } from '../../facades/pets.facade';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs';
+import { filter, switchMap } from 'rxjs';
 import { Pet } from '../../models/pet.model';
 import { ActivatedRoute } from '@angular/router';
+import { DialogService } from '../../../../shared/components/dialog/services/dialog.service';
+import { DialogData } from '../../../../shared/components/dialog/models/dialog-data.model';
 
 @Component({
   selector: 'app-pet-form',
@@ -22,6 +24,8 @@ export class PetFormComponent implements OnInit, OnDestroy {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly formBuilder = inject(FormBuilder);
+
+  private readonly dialogService = inject(DialogService);
 
   private readonly petsFacade = inject(PetsFacade);
   private readonly shellFacade = inject(ShellFacade);
@@ -45,6 +49,25 @@ export class PetFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.petsFacade.clearPet();
+  }
+
+  protected onDelete(): void {
+
+    const dialogData: DialogData = {  
+      title: 'Excluir Pet',
+      message: `Tem certeza que deseja remover ${this.petForm.get('nome')?.value}? Essa ação não pode ser desfeita.`,
+      confirmText: 'Sim',
+      cancelText: 'Cancelar',
+      type: 'danger'
+    };
+
+    this.dialogService.open(dialogData)
+      .pipe(
+        filter(confirmed => confirmed),
+        switchMap(() => this.petsFacade.deletePet(this.petId)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe()
   }
 
   protected onSave(): void {
