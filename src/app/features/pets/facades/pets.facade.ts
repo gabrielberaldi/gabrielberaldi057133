@@ -5,6 +5,7 @@ import { Filters } from '../../../shared/model/filters.model';
 import { PetRequest } from '../models/pet-request.model';
 import { Pet } from '../models/pet.model';
 import { Router } from '@angular/router';
+import { Attachment } from '../../../shared/model/attachment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -44,12 +45,44 @@ export class PetsFacade {
     )
   }
 
+  get currentPetSnapshot(): Pet | undefined {
+    return this._pet$.getValue();
+  }
+
   loadPet(id: number): Observable<Pet> {
     this._loading$.next(true);
     return this.petsService.getById(id).pipe(
       tap(pet => this._pet$.next(pet)),
       finalize(() => this._loading$.next(false))
     )
+  }
+
+  uploadAttachment(petId: number, file: File): Observable<Attachment> {
+    this._loading$.next(true);
+    return this.petsService.uploadAttachment(petId, file).pipe(
+      tap((foto) => {
+        const currentPet = this._pet$.getValue();
+        if (currentPet) {
+          const updatedPet: Pet = { ...currentPet, foto };
+          this._pet$.next(updatedPet);
+        }
+      }),
+      finalize(() => this._loading$.next(false))
+    );
+  }
+
+  removeAttachment(petId: number, photoId: number): Observable<void> {
+    this._loading$.next(true);
+    return this.petsService.removeAttachment(petId, photoId).pipe(
+      tap(() => {
+        const currentPet = this._pet$.getValue();
+        if (currentPet) {
+          const updatedPet: Pet = { ...currentPet, foto: null };
+          this._pet$.next(updatedPet);
+        }
+      }),
+      finalize(() => this._loading$.next(false))
+    );
   }
 
   search(nome: string): void {

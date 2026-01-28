@@ -3,19 +3,21 @@ import { ShellFacade } from '../../../../core/facades/shell.facade';
 import { BreadcrumbConfig } from '../../../../core/models/breadcrumb-config.model';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputComponent } from '../../../../shared/components/input/input.component';
-import { LucideAngularModule, PawPrintIcon } from 'lucide-angular';
+import { LucideAngularModule, PawPrint } from 'lucide-angular';
 import { PetsFacade } from '../../facades/pets.facade';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs';
 import { Pet } from '../../models/pet.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DialogService } from '../../../../shared/components/dialog/services/dialog.service';
 import { DialogData } from '../../../../shared/components/dialog/models/dialog-data.model';
+import { UploadComponent } from '../../../../shared/components/upload/upload.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-pet-form',
   standalone: true,
-  imports: [InputComponent, LucideAngularModule, ReactiveFormsModule],
+  imports: [AsyncPipe, InputComponent, LucideAngularModule, ReactiveFormsModule, RouterLink, UploadComponent],
   templateUrl: './pet-form.component.html',
   styleUrl: './pet-form.component.scss'
 })
@@ -27,10 +29,10 @@ export class PetFormComponent implements OnInit, OnDestroy {
 
   private readonly dialogService = inject(DialogService);
 
-  private readonly petsFacade = inject(PetsFacade);
   private readonly shellFacade = inject(ShellFacade);
+  protected readonly petsFacade = inject(PetsFacade);
 
-  protected readonly PawPrintIcon = PawPrintIcon;
+  protected readonly PawPrint = PawPrint;
 
   protected readonly petForm = this.formBuilder.nonNullable.group({
     id: [null as number | null],
@@ -66,8 +68,45 @@ export class PetFormComponent implements OnInit, OnDestroy {
         filter(confirmed => confirmed),
         switchMap(() => this.petsFacade.deletePet(this.petId)),
         takeUntilDestroyed(this.destroyRef)
+      ).subscribe()
+  }
+  
+  protected onFileChange(event: File): void {
+    console.log('batyeu aq');
+    console.log(this.petId,' id');
+    
+    if (!this.petId) return;
+    this.petsFacade.uploadAttachment(this.petId, event)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
+  }
+
+  protected onRemoveRequest(): void {
+
+    const dialogData: DialogData = {
+      title: 'Remover Foto',
+      message: 'Tem certeza que deseja remover a foto deste pet?',
+      confirmText: 'Sim',
+      type: 'danger'
+    };
+
+    const photoId = this.petsFacade.currentPetSnapshot?.foto?.id;
+
+    if (!this.petId || !photoId) {
+      return;
+    }
+
+    this.dialogService.open(dialogData)
+      .pipe(
+        filter(confirmed => confirmed),
+        switchMap(() => this.petsFacade.removeAttachment(this.petId, photoId)),
+        takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe()
+      .subscribe({
+        next: () => console.log('Foto removida!'),
+        error: () => console.error('Erro ao remover foto')
+      }
+    );
   }
 
   protected onSave(): void {

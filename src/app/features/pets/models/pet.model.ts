@@ -1,4 +1,4 @@
-import { Attachment } from "../../../shared/model/file.model";
+import { Attachment } from "../../../shared/model/attachment.model";
 
 export interface Pet {
   id?: number | null;

@@ -7,6 +7,7 @@ import { Pet } from '../models/pet.model';
 import { PetDetail } from '../models/pet-detail.model';
 import { Filters } from '../../../shared/model/filters.model';
 import { PetRequest } from '../models/pet-request.model';
+import { Attachment } from '../../../shared/model/attachment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,16 @@ export class PetsService {
   delete(id: number): Observable<void> { 
     return this.httpClient.delete<void>(`${this.apiUrl}/pets/${id}`);
   }
+
+  uploadAttachment(petId: number, file: File): Observable<Attachment> {
+    const formData = new FormData();
+    formData.append('foto', file);
+    return this.httpClient.post<Attachment>(`${this.apiUrl}/pets/${petId}/fotos`, formData);
+  }
+
+  removeAttachment(petId: number, photoId: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiUrl}/pets/${petId}/fotos/${photoId}`);
+  } 
 
   private params(filters: Filters): HttpParams {
     return new HttpParams({
