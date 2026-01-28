@@ -17,6 +17,10 @@ export const SHELL_ROUTES: Route[] = [
       },
       {
         path: 'tutors',
+        loadChildren: () => import('../../features/tutors/tutors.routes').then(m => m.TUTORS_ROUTE)
+      },
+      {
+        path: 'tutors',
         component: ShellComponent
       }
     ]
