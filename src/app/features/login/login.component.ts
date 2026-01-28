@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputComponent } from '../../shared/components/input/input.component';
 import { AuthFacade } from '../../core/auth/facades/auth.facade';
-import { UserCredentials } from '../../core/auth/models/user-credentials.model';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +16,7 @@ export class LoginComponent {
   private readonly authFacade = inject(AuthFacade);
   private readonly formBuilder = inject(FormBuilder);
   
-  protected loginForm = this.formBuilder.group({
+  protected loginForm = this.formBuilder.nonNullable.group({
     username: ['', Validators.required],
     password: ['', Validators.required]
   });
@@ -27,7 +26,7 @@ export class LoginComponent {
       this.loginForm.markAllAsTouched();
       return;
     };
-    const credentials = this.loginForm.getRawValue() as UserCredentials;
+    const credentials = this.loginForm.getRawValue();
     this.authFacade.login(credentials).subscribe();
   }
 
