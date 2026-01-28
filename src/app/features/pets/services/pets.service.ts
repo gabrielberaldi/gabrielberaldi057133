@@ -6,6 +6,7 @@ import { PetList } from '../models/pet-list.model';
 import { Pet } from '../models/pet.model';
 import { PetDetail } from '../models/pet-detail.model';
 import { Filters } from '../../../shared/model/filters.model';
+import { PetRequest } from '../models/pet-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class PetsService {
   private readonly httpClient = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/v1`;
   
-  getById(id: string): Observable<PetDetail> { 
+  getById(id: number): Observable<PetDetail> { 
     return this.httpClient.get<PetDetail>(`${this.apiUrl}/pets/${id}`);
   }
 
@@ -24,12 +25,12 @@ export class PetsService {
     return this.httpClient.get<PetList>(`${this.apiUrl}/pets`, { params });
   }
 
-  create(pet: number): Observable<Pet> { 
-    return this.httpClient.post<Pet>(`${this.apiUrl}/pets`, { });
+  create({ id, ...body }: PetRequest): Observable<Pet> { 
+    return this.httpClient.post<Pet>(`${this.apiUrl}/pets`, body);
   }
 
-  update(id: number): Observable<Pet> { 
-    return this.httpClient.put<Pet>(`${this.apiUrl}/pets/${id}`, { });
+  update({ id, ...body }: PetRequest): Observable<Pet> { 
+    return this.httpClient.put<Pet>(`${this.apiUrl}/pets/${id}`, body );
   }
 
   delete(id: number): Observable<void> { 

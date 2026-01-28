@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ChevronRight, LucideAngularModule, PawPrint } from 'lucide-angular';
-import { Pet } from '../../../models/pet.model';
+import { Pet } from '../../models/pet.model';
 
 @Component({
   selector: 'app-pet-card',
@@ -19,6 +19,7 @@ export class PetCardComponent {
   protected readonly ChevronRight = ChevronRight;
 
   protected onDetail(): void {
+    if (!this.pet.id) return;
     this.viewDetails.emit(this.pet.id);
   }
 

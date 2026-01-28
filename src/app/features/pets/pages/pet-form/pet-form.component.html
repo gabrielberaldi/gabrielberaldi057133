@@ -1,0 +1,54 @@
+<div class="max-w-2xl mx-auto space-y-6">
+  <div class="card bg-base-100 shadow-sm border border-base-200">
+    <div class="card-body p-8">
+
+      <div class="flex items-center gap-3 mb-6">
+        <div class="p-3 bg-primary/10 text-primary rounded-xl">
+          <lucide-angular [img]="PawPrintIcon" size="24"></lucide-angular>
+        </div>
+        <div>
+          <h2 class="card-title text-2xl font-bold">
+            Cadastro
+          </h2>
+          <p class="text-sm text-base-content/50">
+            Identificação
+          </p>
+        </div>
+      </div>
+
+      <form class="space-y-6" [formGroup]="petForm" (ngSubmit)="onSave()" >
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="md:col-span-2">
+            <app-input formControlName="nome" label="Nome do Pet" placeholder="Ex: Rex" type="text"></app-input>
+          </div>
+          <div class="md:col-span-2">
+            <app-input formControlName="idade" label="Idade (Anos)" type="number" placeholder="0"></app-input>
+          </div>
+        </div>
+
+        <div class="w-full">
+          <app-input formControlName="raca" label="Raça" placeholder="Ex: Labrador" type="text"></app-input>
+        </div>
+
+        <div class="flex items-center justify-end gap-4 pt-6 border-t border-base-200">
+
+          {{ petForm.controls['nome'].value }}
+
+          <button class="btn btn-ghost hover:bg-base-200 px-6 font-semibold" type="button" routerLink="/pets">
+            Voltar
+          </button>
+          <button class="btn btn-neutral px-12 shadow-lg gap-2" type="submit" [disabled]="petForm.invalid">
+            Salvar Dados
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- @if (isEditMode) {
+    <div class="animate-in fade-in slide-in-from-bottom-4 duration-500">
+       <app-photo-upload [petId]="petId"></app-photo-upload>
+    </div>
+  } -->
+</div>
