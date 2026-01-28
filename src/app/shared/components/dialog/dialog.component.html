@@ -1,0 +1,43 @@
+<dialog class="modal modal-bottom sm:modal-middle" [class.modal-open]="dialogService.data$ | async">
+
+	@if (dialogService.data$ | async; as data) {
+		<div 
+			class="modal-box relative border-t-4" 
+			[ngClass]="{
+				'border-error': data.type === 'danger',
+				'border-info': data.type === 'info' || !data.type
+			}">
+
+			<div class="flex flex-col items-center text-center gap-4 py-4">
+				<div class="p-4 rounded-full bg-base-200 text-base-content">
+					@if (data.type === 'danger') {
+						<lucide-angular class="text-error" size="32" [img]="TriangleAlert"></lucide-angular>
+					} @else {
+						<lucide-angular class="text-info" size="32" [img]="Info"></lucide-angular>
+					}
+				</div>
+				<h3 class="font-bold text-xl">{{ data.title }}</h3>
+				<p class="text-base-content/70">{{ data.message }}</p>
+			</div>
+
+			<div class="modal-action flex flex-row gap-2 mt-6 border-base-200">
+				<button 
+					class="btn btn-outline flex-1 hover:bg-base-200 px-6 font-semibold " 
+					(click)="onAction(false)">
+          {{ data.cancelText || 'Cancelar' }}
+				</button>
+				<button 
+					class="btn px-8 flex-1"
+					[ngClass]="data.type === 'danger' ? 'btn-error' : 'btn-primary'"
+					(click)="onAction(true)">
+					{{ data.confirmText || 'Confirmar' }}
+				</button>
+			</div>
+
+		</div>
+
+		<form method="dialog" class="modal-backdrop">
+			<button (click)="onAction(false)">close</button>
+		</form>
+	}
+</dialog>
