@@ -62,8 +62,6 @@ export class PetFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(params => {
         const id = params.get('id');
-        console.log(params, ' prms');
-        
         if (id) {
           this.petsFacade.loadPet(Number(id)).subscribe();
         } else {

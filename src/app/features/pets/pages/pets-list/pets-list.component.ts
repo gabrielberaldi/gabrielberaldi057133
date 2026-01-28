@@ -5,12 +5,13 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InputComponent } from '../../../../shared/components/input/input.component';
-import { LucideAngularModule, SearchIcon } from 'lucide-angular';
+import { LucideAngularModule, PlusIcon, SearchIcon } from 'lucide-angular';
 import { CardSkeletonComponent } from '../../../../shared/components/card-skeleton/card-skeleton.component';
-import { PetCardComponent } from '../components/pet-card/pet-card.component';
 import { PaginatorComponent } from '../../../../shared/components/paginator/paginator.component';
 import { ShellFacade } from '../../../../core/facades/shell.facade';
-import { Breadcrumb } from '../../../../core/models/breadcrumb.model';
+import { BreadcrumbConfig } from '../../../../core/models/breadcrumb-config.model';
+import { PetCardComponent } from '../../components/pet-card/pet-card.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pets-list',
@@ -21,6 +22,7 @@ import { Breadcrumb } from '../../../../core/models/breadcrumb.model';
 })
 export class PetsListComponent implements OnInit {
 
+  protected readonly router = inject(Router);
   protected readonly petsFacade = inject(PetsFacade);
   protected readonly shellFacade = inject(ShellFacade);
 
@@ -30,27 +32,37 @@ export class PetsListComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
+    this.listenToSearchControl();
+    this.setBreadcrumbs();
+  }
+
+  protected onPageChange(page: number): void {
+    this.petsFacade.changePage(page);
+  }
+  
+  protected onViewDetails(petId: number): void {
+    this.router.navigate([`/shell/pets/edit/${petId}`]);
+  }
+
+  private listenToSearchControl(): void {
     this.searchControl.valueChanges.pipe(
       startWith(''),
       debounceTime(300),
       distinctUntilChanged(),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe(value => this.petsFacade.search(value ?? ''));
-
-    this.setBreadcrumbs();
   }
 
-  
-  protected onPageChange(page: number): void {
-    this.petsFacade.changePage(page);
-  }
-  
-  protected onViewDetails(petId: number): void {
-
-  }
-  
   private setBreadcrumbs(): void {
-    this.shellFacade.setBreadCrumbs([{ label: 'Lista de pets '}]);
+    const config: BreadcrumbConfig = {
+      breadcrumbs: [{ label: 'Pets' }, { label: 'Listagem' }],
+      button: { 
+        icon: PlusIcon,
+        label: 'Adicionar',
+        link: '/shell/pets/new',
+      }
+    };
+    this.shellFacade.setBreadCrumbs(config);
   }
 
 }

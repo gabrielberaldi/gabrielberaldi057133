@@ -32,15 +32,17 @@
         </div>
 
         <div class="flex items-center justify-end gap-4 pt-6 border-t border-base-200">
-
-          {{ petForm.controls['nome'].value }}
-
-          <button class="btn btn-ghost hover:bg-base-200 px-6 font-semibold" type="button" routerLink="/pets">
+          <button class="btn btn-outline hover:bg-base-200 px-6 font-semibold" type="button" routerLink="/pets">
             Voltar
           </button>
           <button class="btn btn-neutral px-12 shadow-lg gap-2" type="submit" [disabled]="petForm.invalid">
             Salvar Dados
           </button>
+          @if (petId) {
+            <button class="btn btn-error px-12 shadow-lg gap-2" type="button">
+              Excluir
+            </button>
+          }
         </div>
       </form>
     </div>
