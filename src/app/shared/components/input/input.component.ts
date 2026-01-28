@@ -14,19 +14,18 @@ export class InputComponent implements ControlValueAccessor {
   @Input() icon?: LucideIconData;
   @Input() label?: string;
   @Input() placeholder: string = '';
-  @Input({ required: true }) type!: 'text' | 'password';
+  @Input({ required: true }) type!: 'text' | 'password' | 'number';
 
   @Self() @Optional() protected ngControl = inject(NgControl, { self: true, optional: true });
 
   protected disabled = false;
+  protected value = '';
   
   private errorMessages: Record<string, any> = {
     email: 'E-mail inválido',
     required: 'Campo obrigatório'
   };
   
-  private value = '';
-
   onChange: any = () => {};
   onTouched: any = () => {};
 
@@ -74,6 +73,8 @@ export class InputComponent implements ControlValueAccessor {
   }
   
   writeValue(value: any): void { 
+    console.log(value, ' value');
+    
     this.value = value;
   }
   
