@@ -1,0 +1,83 @@
+<div 
+  class="relative w-full h-64 rounded-box border-4 border-dashed transition-all group overflow-hidden flex flex-col items-center justify-center text-center"
+  [ngClass]="{
+    'border-base-300 bg-base-100 hover:border-base-content/20 hover:bg-base-200 cursor-pointer': !disabled,
+    'border-base-200 bg-base-200/50 cursor-not-allowed opacity-70': disabled,
+    'border-error bg-error/10': errorMessage
+  }"
+  (click)="!isUploading && !disabled && fileInput.click()">
+
+  <input 
+    accept="image/png, image/jpeg, image/jpg"
+    class="hidden"
+    type="file"
+    [disabled]="disabled" 
+    #fileInput 
+    (change)="onFileSelected($event)" />
+
+  @if (disabled) {
+    <div class="flex flex-col items-center justify-center p-4 text-base-content/50">
+      <lucide-angular [img]="Lock" size="48" class="mb-4"></lucide-angular>
+      <p class="text-lg font-bold">
+        {{ disabledMessage }}
+      </p>
+    </div>
+  } @else {
+    
+    @if (previewUrl || currentPhotoUrl) {
+      <img 
+        alt="Preview" 
+        class="w-full h-full object-cover z-0" 
+        [src]="previewUrl || currentPhotoUrl" 
+      />
+
+      @if (!isUploading) {
+        <button 
+          type="button"
+          class="absolute top-2 right-2 btn btn-circle btn-sm btn-error text-white z-30 shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
+          (click)="onRemove($event)"
+          title="Remover imagem">
+          <lucide-angular [img]="Trash2" size="16"></lucide-angular>
+        </button>
+  
+        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity z-10 
+            flex flex-col items-center justify-center text-center p-4">
+          <div class="flex flex-col items-center">
+            <lucide-angular class="mb-2 text-white" size="32" [img]="Image"></lucide-angular>
+            <p class="font-bold text-white drop-shadow-lg leading-tight">
+              Clique para trocar
+            </p>
+          </div>
+        </div>
+      }
+    } 
+    @else {
+      <div class="flex flex-col items-center justify-center p-4">
+        <lucide-angular 
+          class="text-base-content/40 mb-4 transition-colors"
+          [img]="Upload" 
+          size="48">
+        </lucide-angular>
+        <p class="text-lg font-bold text-base-content/70 transition-colors">
+          Clique para fazer upload
+        </p>
+      </div>
+    }
+  }
+
+  @if (isUploading) {
+    <div class="absolute inset-0 bg-base-100/80 flex items-center justify-center z-20">
+      <span class="loading loading-spinner loading-lg text-primary"></span>
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="alert alert-error mt-4 py-2 text-sm font-medium flex items-center gap-2">
+      <lucide-angular [img]="CircleAlert" size="18"></lucide-angular>
+      <span>{{ errorMessage }}</span>
+      <button type="button" class="btn btn-ghost btn-xs btn-circle ml-auto" (click)="clearError()">
+        <lucide-angular [img]="CircleX" size="14"></lucide-angular>
+      </button>
+    </div>
+  }
+</div>
