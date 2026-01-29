@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ShellFacade } from '../../../../core/facades/shell.facade';
 import { LucideAngularModule, PlusIcon, SearchIcon } from 'lucide-angular';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ import { TutorCardComponent } from '../../components/tutor-card/tutor-card.compo
   templateUrl: './tutors-list.component.html',
   styleUrl: './tutors-list.component.scss'
 })
-export class TutorsListComponent {
+export class TutorsListComponent implements OnInit {
 
   protected readonly router = inject(Router);
   protected readonly shellFacade = inject(ShellFacade);

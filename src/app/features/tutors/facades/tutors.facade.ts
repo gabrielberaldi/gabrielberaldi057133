@@ -17,15 +17,14 @@ export class TutorsFacade {
 
   private readonly _filters$ = new BehaviorSubject<Filters>({ page: 0, size: 10 });
   private readonly _loading$ = new BehaviorSubject<boolean>(false);
-  private readonly _tutors$ = new BehaviorSubject<Tutor | undefined>(undefined);
+  private readonly _tutor$ = new BehaviorSubject<Tutor | undefined>(undefined);
 
   readonly loading$ = this._loading$.asObservable();
-  readonly tutors$ = this._tutors$.asObservable();
+  readonly tutor$ = this._tutor$.asObservable();
 
   readonly tutorsList$ = this._filters$.pipe(
     tap(() => this._loading$.next(true)),
     switchMap((filters) => this.tutorsService.getAll(filters).pipe(
-      tap(a => console.log('a')),
       finalize(() => this._loading$.next(false)),
       )
     ),
@@ -33,7 +32,7 @@ export class TutorsFacade {
   );
 
   clearTutor(): void {
-    this._tutors$.next(undefined);
+    this._tutor$.next(undefined);
   }
 
   changePage(page: number): void {
@@ -47,13 +46,13 @@ export class TutorsFacade {
   }
 
   get currentTutorSnapshot(): Tutor | undefined {
-    return this._tutors$.getValue();
+    return this._tutor$.getValue();
   }
 
   loadTutor(id: number): Observable<Tutor> {
     this._loading$.next(true);
     return this.tutorsService.getById(id).pipe(
-      tap(tutor => this._tutors$.next(tutor)),
+      tap(tutor => this._tutor$.next(tutor)),
       finalize(() => this._loading$.next(false))
     )
   }
@@ -62,10 +61,10 @@ export class TutorsFacade {
     this._loading$.next(true);
     return this.tutorsService.uploadAttachment(tutorId, file).pipe(
       tap((foto) => {
-        const currentTutor = this._tutors$.getValue();
+        const currentTutor = this._tutor$.getValue();
         if (currentTutor) {
           const updatedTutor: Tutor = { ...currentTutor, foto };
-          this._tutors$.next(updatedTutor);
+          this._tutor$.next(updatedTutor);
         }
       }),
       finalize(() => this._loading$.next(false))
@@ -76,10 +75,10 @@ export class TutorsFacade {
     this._loading$.next(true);
     return this.tutorsService.removeAttachment(tutorId, photoId).pipe(
       tap(() => {
-        const currentTutor = this._tutors$.getValue();
+        const currentTutor = this._tutor$.getValue();
         if (currentTutor) {
           const updatedTutor: Tutor = { ...currentTutor, foto: null };
-          this._tutors$.next(updatedTutor);
+          this._tutor$.next(updatedTutor);
         }
       }),
       finalize(() => this._loading$.next(false))
@@ -95,7 +94,7 @@ export class TutorsFacade {
     const request$ = this.request(tutorRequest);
     return request$.pipe(
       tap(savedTutor => { 
-        this._tutors$.next(savedTutor);
+        this._tutor$.next(savedTutor);
         if (!tutorRequest.id) this.router.navigate([`/shell/tutors/edit/${savedTutor.id}`])
       }),
       finalize(() => this._loading$.next(false))
