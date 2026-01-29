@@ -13,6 +13,7 @@ export class PaginatorComponent {
   @Input({ required: true }) currentPage = 0;
   @Input({ required: true }) totalElements = 0;
   @Input({ required: true }) totalPages = 0;
+  @Input({ required: true }) foundItensLabel!: string;
 
   @Output() pageChange = new EventEmitter<number>();
 
