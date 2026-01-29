@@ -1,1 +1,25 @@
-<p>tutors-list works!</p>
+<div class="flex flex-col gap-5">
+  <app-input 
+    placeholder="Buscar pelo nome do tutor" 
+    type="text" 
+    [formControl]="searchControl" 
+    [icon]="SearchIcon" />
+
+    @if (tutorsFacade.tutorsList$ | async; as list) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-6">
+        @for (tutor of list.content; track tutor.id) {
+          <div>
+            <app-tutor-card [tutor]="tutor" (viewDetails)="onViewDetails($event)"></app-tutor-card>
+          </div>
+        }
+      </div>
+      <app-paginator
+        class="self-center"
+        foundItensLabel="tutores"
+        [currentPage]="list.page"
+        [totalElements]="list.total"
+        [totalPages]="list.pageCount"
+        (pageChange)="onPageChange($event)"> 
+      </app-paginator>
+    }
+</div>
