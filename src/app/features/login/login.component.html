@@ -13,9 +13,9 @@
     <form class="flex flex-col w-full gap-6" [formGroup]="loginForm" (submit)="onSubmit()">
       <app-input label="Usuário" type="text" placeholder="Usuário" formControlName="username"/>
       <app-input label="Senha" type="password" placeholder="Senha" formControlName="password"/>
-      <button class="btn btn-neutral" type="submit" >
+      <app-button class="grow" type="submit" variant="btn-primary">
         Entrar
-      </button>
+      </app-button>
     </form>
 
     <footer class="text-center text-xs opacity-90">

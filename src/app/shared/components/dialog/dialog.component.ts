@@ -2,11 +2,12 @@ import { Component, inject } from '@angular/core';
 import { DialogService } from './services/dialog.service';
 import { Info, LucideAngularModule, TriangleAlert } from 'lucide-angular';
 import { AsyncPipe, NgClass } from '@angular/common';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-dialog',
   standalone: true,
-  imports: [AsyncPipe, LucideAngularModule, NgClass],
+  imports: [AsyncPipe, ButtonComponent, LucideAngularModule, NgClass],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss'
 })

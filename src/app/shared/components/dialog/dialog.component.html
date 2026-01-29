@@ -21,17 +21,18 @@
 			</div>
 
 			<div class="modal-action flex flex-row gap-2 mt-6 border-base-200">
-				<button 
-					class="btn btn-outline flex-1 hover:bg-base-200 px-6 font-semibold " 
-					(click)="onAction(false)">
-          {{ data.cancelText || 'Cancelar' }}
-				</button>
-				<button 
-					class="btn px-8 flex-1"
-					[ngClass]="data.type === 'danger' ? 'btn-error' : 'btn-primary'"
+				<app-button 
+					customClass="grow" 
+					variant="btn-outline" 
+					(action)="onAction(false)">
+					{{ data.cancelText || 'Cancelar' }}
+				</app-button>
+				<app-button 
+					customClass="grow" 
+					[variant]="data.type === 'danger' ? 'btn-error' : 'btn-primary'" 
 					(click)="onAction(true)">
 					{{ data.confirmText || 'Confirmar' }}
-				</button>
+				</app-button>
 			</div>
 
 		</div>

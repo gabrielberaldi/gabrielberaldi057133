@@ -29,12 +29,9 @@
 
     @if (config.button) {
       <div class="shrink-0">
-        <button 
-          class="btn btn-primary shadow-md gap-2"
-          [routerLink]="config.button.link">
-          <lucide-angular [img]="config.button.icon" size="20"></lucide-angular>
-          {{ config.button.label }}
-        </button>
+        <app-button [icon]="config.button.icon" [routerLink]="config.button.link">
+           {{ config.button.label }}
+        </app-button>
       </div>
     }
 

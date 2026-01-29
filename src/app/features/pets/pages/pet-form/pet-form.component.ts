@@ -3,7 +3,7 @@ import { ShellFacade } from '../../../../core/facades/shell.facade';
 import { BreadcrumbConfig } from '../../../../core/models/breadcrumb-config.model';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputComponent } from '../../../../shared/components/input/input.component';
-import { LucideAngularModule, PawPrint } from 'lucide-angular';
+import { ArrowLeft, LucideAngularModule, PawPrint, Save, Trash2 } from 'lucide-angular';
 import { PetsFacade } from '../../facades/pets.facade';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs';
@@ -13,11 +13,12 @@ import { DialogService } from '../../../../shared/components/dialog/services/dia
 import { DialogData } from '../../../../shared/components/dialog/models/dialog-data.model';
 import { UploadComponent } from '../../../../shared/components/upload/upload.component';
 import { AsyncPipe } from '@angular/common';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-pet-form',
   standalone: true,
-  imports: [AsyncPipe, InputComponent, LucideAngularModule, ReactiveFormsModule, RouterLink, UploadComponent],
+  imports: [AsyncPipe, ButtonComponent, InputComponent, LucideAngularModule, ReactiveFormsModule, RouterLink, UploadComponent],
   templateUrl: './pet-form.component.html',
   styleUrl: './pet-form.component.scss'
 })
@@ -32,7 +33,11 @@ export class PetFormComponent implements OnInit, OnDestroy {
   private readonly shellFacade = inject(ShellFacade);
   protected readonly petsFacade = inject(PetsFacade);
 
+  protected readonly ArrowLeft = ArrowLeft;
   protected readonly PawPrint = PawPrint;
+  protected readonly Trash2 = Trash2;
+  protected readonly Save = Save;
+
 
   protected readonly petForm = this.formBuilder.nonNullable.group({
     id: [null as number | null],
@@ -72,9 +77,6 @@ export class PetFormComponent implements OnInit, OnDestroy {
   }
   
   protected onFileChange(event: File): void {
-    console.log('batyeu aq');
-    console.log(this.petId,' id');
-    
     if (!this.petId) return;
     this.petsFacade.uploadAttachment(this.petId, event)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -102,11 +104,7 @@ export class PetFormComponent implements OnInit, OnDestroy {
         switchMap(() => this.petsFacade.removeAttachment(this.petId, photoId)),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe({
-        next: () => console.log('Foto removida!'),
-        error: () => console.error('Erro ao remover foto')
-      }
-    );
+      .subscribe();
   }
 
   protected onSave(): void {

@@ -27,41 +27,18 @@
           (removeRequest)="onRemoveRequest()">
         </app-upload>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div class="md:col-span-2">
-            <app-input formControlName="nome" label="Nome do Pet" placeholder="Ex: Rex" type="text"></app-input>
-          </div>
-          <div class="md:col-span-2">
-            <app-input formControlName="idade" label="Idade (Anos)" type="number" placeholder="0"></app-input>
-          </div>
-        </div>
-
-        <div class="w-full">
+        <div class="flex flex-col gap-2.5">
+          <app-input formControlName="nome" label="Nome do Pet" placeholder="Ex: Rex" type="text"></app-input>
+          <app-input formControlName="idade" label="Idade (Anos)" type="number" placeholder="0"></app-input>
           <app-input formControlName="raca" label="Raça" placeholder="Ex: Labrador" type="text"></app-input>
         </div>
 
-        <div class="flex flex-col-reverse sm:flex-row items-center justify-center gap-3 pt-6 border-t border-base-200">
-          <button 
-            class="btn btn-outline hover:bg-base-200 w-full sm:w-auto px-6 font-semibold text-base" 
-            type="button" 
-            routerLink="/shell/pets">
-            Voltar
-          </button>
-          <div class="sm:flex-1"></div>
-          @if (petId) {
-            <button 
-              class="btn btn-error w-full sm:w-auto px-12 shadow-lg gap-2 text-base" 
-              type="button" 
-              (click)="onDelete()">
-              Excluir
-            </button>
+        <div class="flex flex-row items-center justify-center gap-3 pt-6 border-t border-base-200">
+          <app-button variant="btn-outline" [icon]="ArrowLeft" [iconSize]="20" routerLink="/shell/pets">Voltar</app-button>
+          @if (!!petId) {
+            <app-button variant="btn-error" [icon]="Trash2" [iconSize]="20" (action)="onDelete()">Excluir</app-button>
           }
-          <button 
-            class="btn btn-neutral w-full sm:w-auto px-12 shadow-lg gap-2 text-base" 
-            type="submit" 
-            [disabled]="petForm.invalid">
-            Salvar Dados
-          </button>
+          <app-button type="submit" [disabled]="petForm.invalid" [icon]="Save" [iconSize]="20">Salvar</app-button>
         </div>
 
       </form>
