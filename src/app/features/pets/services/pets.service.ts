@@ -4,7 +4,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PetList } from '../models/pet-list.model';
 import { Pet } from '../models/pet.model';
-import { PetDetail } from '../models/pet-detail.model';
 import { Filters } from '../../../shared/model/filters.model';
 import { PetRequest } from '../models/pet-request.model';
 import { Attachment } from '../../../shared/model/attachment.model';
@@ -17,8 +16,8 @@ export class PetsService {
   private readonly httpClient = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/v1`;
   
-  getById(id: number): Observable<PetDetail> { 
-    return this.httpClient.get<PetDetail>(`${this.apiUrl}/pets/${id}`);
+  getById(id: number): Observable<Pet> { 
+    return this.httpClient.get<Pet>(`${this.apiUrl}/pets/${id}`);
   }
 
   getAll(filters: Filters): Observable<PetList> { 

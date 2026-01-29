@@ -1,1 +1,109 @@
-<p>pets-detail works!</p>
+<div class="max-w-5xl mx-auto p-4 md:p-8">
+  @if (petsFacade.pet$ | async; as pet) {
+    
+    <div class="flex items-center justify-between mb-8">
+      <button class="btn-back" routerLink="/shell/pets">
+        <lucide-angular [img]="ArrowLeft" size="20"></lucide-angular>
+        Voltar
+      </button>
+      
+      <div class="flex gap-2">
+        <button class="btn btn-outline" [routerLink]="['/shell/pets/editar', pet.id]">
+          <lucide-angular [img]="Pencil" size="16"></lucide-angular>
+          Editar
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <div class="lg:col-span-4">
+        <div class="sticky top-8">
+          <div class="aspect-square rounded-3xl overflow-hidden bg-base-200 shadow-2xl border-4 border-white relative">
+            @if (pet.foto?.url) {
+              <img [src]="pet.foto?.url" class="w-full h-full object-cover" />
+            } @else {
+              <div class="w-full h-full flex flex-col items-center justify-center text-base-content/10">
+                <lucide-angular [img]="Paw" size="80"></lucide-angular>
+                <span class="text-xs font-bold mt-2 uppercase opacity-40">Sem foto</span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-8 space-y-8">
+        
+        <div>
+          <h1 class="text-6xl font-black text-neutral uppercase tracking-tighter leading-none break-words">
+            {{ pet.nome }}
+          </h1>
+          <div class="flex gap-2 mt-4">
+            <span class="badge badge-outline badge-lg font-bold uppercase italic">{{ pet.raca }}</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-base-100 border border-base-200 p-4 rounded-2xl shadow-sm">
+            <p class="text-[10px] uppercase font-bold opacity-50 tracking-widest mb-1">Idade aproximada</p>
+            <p class="text-2xl font-bold">{{ pet.idade }} {{ pet.idade === 1 ? 'ano' : 'anos' }}</p>
+          </div>
+          <div class="bg-base-100 border border-base-200 p-4 rounded-2xl shadow-sm">
+            <p class="text-[10px] uppercase font-bold opacity-50 tracking-widest mb-1">Código Identificador</p>
+            <p class="text-2xl font-mono font-bold">#{{ pet.id }}</p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="space-y-4">
+          <h2 class="text-sm uppercase font-bold opacity-60 tracking-widest flex items-center gap-2">
+            <lucide-angular [img]="Users" size="16"></lucide-angular>
+            Responsáveis / Tutores
+          </h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            @for (tutor of pet.tutores; track tutor.id) {
+              <div class="card bg-base-100 border border-base-200 shadow-sm hover:border-primary/30 transition-colors">
+                <div class="card-body p-4 flex-row items-center gap-4">
+                  <div class="avatar placeholder">
+                    <div class="bg-neutral text-neutral-content rounded-full w-10">
+                      <span class="text-xs">{{ tutor.nome.charAt(0) }}</span>
+                    </div>
+                  </div>
+                  <div class="flex-1">
+                    <p class="font-bold leading-tight text-sm">{{ tutor.nome }}</p>
+                    <p class="text-[11px] opacity-70 flex items-center gap-1 mt-1">
+                      <lucide-angular [img]="Phone" size="12"></lucide-angular>
+                      {{ tutor.telefone }}
+                    </p>
+                  </div>
+                  <button class="btn btn-ghost btn-sm btn-circle" [routerLink]="['/shell/tutores/editar', tutor.id]">
+                    <lucide-angular [img]="ExternalLink" size="16"></lucide-angular>
+                  </button>
+                </div>
+              </div>
+            } @empty {
+              <div class="col-span-full p-8 border-2 border-dashed border-base-300 rounded-3xl text-center bg-base-200/30">
+                <p class="text-sm italic opacity-50 font-medium">Este pet ainda não possui tutores vinculados.</p>
+                <button class="btn btn-xs btn-outline mt-3" [routerLink]="['/shell/pets/editar', pet.id]">Vincular agora</button>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+  } @else {
+    <div class="flex flex-col gap-4 w-full">
+      <div class="skeleton h-12 w-48"></div>
+      <div class="flex gap-8">
+        <div class="skeleton h-80 w-80 shrink-0"></div>
+        <div class="flex flex-col gap-4 w-full">
+          <div class="skeleton h-20 w-full"></div>
+          <div class="skeleton h-32 w-full"></div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

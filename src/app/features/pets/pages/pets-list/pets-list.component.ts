@@ -41,7 +41,7 @@ export class PetsListComponent implements OnInit {
   }
   
   protected onViewDetails(petId: number): void {
-    this.router.navigate([`/shell/pets/edit/${petId}`]);
+    this.router.navigate([`/shell/pets/details/${petId}`]);
   }
 
   private listenToSearchControl(): void {
