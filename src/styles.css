@@ -2,3 +2,15 @@
 @plugin "daisyui" {
   themes: light --default;
 }
+
+.btn-save {
+  @apply btn btn-outline btn-primary w-full sm:w-auto px-12 shadow-lg gap-2 text-base;
+}
+
+.btn-back {
+  @apply btn btn-outline hover:bg-base-200 w-full sm:w-auto px-6 font-semibold text-base;
+}
+
+.btn-delete {
+  @apply btn btn-outline btn-error w-full sm:w-auto px-12 shadow-lg gap-2 text-base;
+}
