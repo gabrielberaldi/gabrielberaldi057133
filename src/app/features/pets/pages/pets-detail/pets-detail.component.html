@@ -27,7 +27,7 @@
       <div class="lg:col-span-8 space-y-6 md:space-y-8">
         
         <div>
-          <h1 class="text-4xl md:text-6xl font-black text-neutral uppercase tracking-tighter leading-none break-words">
+          <h1 class="text-4xl md:text-6xl font-black text-neutral uppercase tracking-tighter leading-none wrap-break-word">
             {{ pet.nome }}
           </h1>
         </div>
@@ -48,16 +48,20 @@
         <div class="space-y-4">
           <h2 class="text-xs md:text-sm uppercase font-bold opacity-60 tracking-widest flex items-center gap-2">
             <lucide-angular [img]="Users" size="16"></lucide-angular>
-            Responsáveis
+            Tutores
           </h2>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
             @for (tutor of pet.tutores; track tutor.id) {
               <div class="card bg-base-100 border border-base-200 shadow-sm hover:border-primary/30 transition-colors">
                 <div class="card-body p-3 md:p-4 flex-row items-center gap-3 md:gap-4">
-                  <div class="avatar placeholder">
+                  <div class="avatar"> 
                     <div class="bg-neutral text-neutral-content rounded-full w-8 md:w-10">
-                      <span class="text-xs">{{ tutor.nome.charAt(0) }}</span>
+                      @if (tutor.foto?.url) {
+                        <img [src]="tutor.foto?.url" [alt]="tutor.nome" class="object-cover" />
+                      } @else {
+                        <span class="text-xs uppercase">{{ tutor.nome.charAt(0) }}</span>
+                      }
                     </div>
                   </div>
                   <div class="flex-1 min-w-0">
