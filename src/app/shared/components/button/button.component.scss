@@ -1,0 +1,25 @@
+@reference "../../../../styles.css";
+
+:host {
+  display: contents; 
+}
+
+.btn-primary {
+  @apply btn btn-outline btn-primary gap-2 font-semibold shadow-md;
+}
+
+.btn-outline {
+  @apply btn btn-outline hover:bg-base-200 gap-2 font-medium;
+}
+
+.btn-error {
+  @apply btn btn-outline btn-error gap-2 font-semibold shadow-md;
+}
+
+.btn-neutral {
+  @apply btn btn-neutral gap-2 font-semibold;
+}
+
+.btn-responsive {
+  @apply btn-sm md:btn-md;
+}
