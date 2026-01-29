@@ -4,12 +4,12 @@ import { ArrowLeft, ExternalLink, LucideAngularModule, PawPrint, Pencil, Phone, 
 import { PetsFacade } from '../../facades/pets.facade';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, tap } from 'rxjs';
+import { ImagePlaceholderComponent } from '../../../../shared/components/image-placeholder/image-placeholder.component';
 
 @Component({
   selector: 'app-pets-detail',
   standalone: true,
-  imports: [AsyncPipe, LucideAngularModule, RouterLink],
+  imports: [AsyncPipe, ImagePlaceholderComponent, LucideAngularModule, RouterLink],
   templateUrl: './pets-detail.component.html',
   styleUrl: './pets-detail.component.scss'
 })
@@ -46,7 +46,6 @@ export class PetsDetailComponent implements OnInit, OnDestroy {
           this.petsFacade.loadPet(Number(id)).subscribe();
         } else {
           this.petsFacade.clearPet();
-          // this.setBreadcrumbs();
         }
       }
     );

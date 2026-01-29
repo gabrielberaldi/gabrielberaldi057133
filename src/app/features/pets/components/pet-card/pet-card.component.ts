@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ChevronRight, LucideAngularModule, PawPrint } from 'lucide-angular';
 import { Pet } from '../../models/pet.model';
+import { ImagePlaceholderComponent } from '../../../../shared/components/image-placeholder/image-placeholder.component';
 
 @Component({
   selector: 'app-pet-card',
   standalone: true,
-  imports: [LucideAngularModule],
+  imports: [ImagePlaceholderComponent, LucideAngularModule],
   templateUrl: './pet-card.component.html',
   styleUrl: './pet-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
