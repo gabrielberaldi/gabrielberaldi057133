@@ -23,11 +23,13 @@ export class InputComponent implements ControlValueAccessor {
   
   private errorMessages: Record<string, any> = {
     email: 'E-mail inválido',
-    required: 'Campo obrigatório'
+    required: 'Campo obrigatório',
+    maxlength: (err: any) => `Limite máximo de ${err.requiredLength} caracteres`,
+    minlength: (err: any) => `Mínimo de ${err.requiredLength} caracteres`
   };
   
-  onChange: any = () => {};
-  onTouched: any = () => {};
+  protected onChange: any = () => {};
+  protected onTouched: any = () => {};
 
   constructor() {
     if (!!this.ngControl) {
@@ -35,26 +37,30 @@ export class InputComponent implements ControlValueAccessor {
     }
   }
 
-  get isInvalid(): boolean { 
+  protected get isInvalid(): boolean { 
     const control = this.ngControl?.control;
     return !!control && control.invalid && (control.dirty || control.touched);
   }
 
-  get isRequired(): boolean { 
+  protected get isRequired(): boolean { 
     const control = this.ngControl?.control;
     if (!control || !control.validator) return false;
     const validator = control?.validator?.({} as AbstractControl);
     return !!validator && validator['required'];
   }
 
-  getErrorMessage(): string { 
-    const errors = this.ngControl?.control?.errors;
-    if (!errors) return '';
-    const firstErrorKey = Object.keys(errors)[0];
-    return this.errorMessages[firstErrorKey];
+  protected getErrorMessage(): string {
+    const control = this.ngControl?.control;
+    if (!control || !control.errors || !control.touched) return '';
+    const firstErrorKey = Object.keys(control.errors)[0];
+    const errorValue = control.errors[firstErrorKey];
+    if (typeof this.errorMessages[firstErrorKey] === 'function') {
+      return this.errorMessages[firstErrorKey](errorValue);
+    }
+    return this.errorMessages[firstErrorKey] || 'Campo inválido';
   }
 
-  onInput(event: Event): void { 
+  protected onInput(event: Event): void { 
     const value = (event.target as HTMLInputElement).value;
     this.value = value;
     this.onChange(value);
