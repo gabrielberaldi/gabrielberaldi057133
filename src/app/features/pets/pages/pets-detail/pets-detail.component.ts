@@ -5,11 +5,12 @@ import { PetsFacade } from '../../facades/pets.facade';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ImagePlaceholderComponent } from '../../../../shared/components/image-placeholder/image-placeholder.component';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-pets-detail',
   standalone: true,
-  imports: [AsyncPipe, ImagePlaceholderComponent, LucideAngularModule, RouterLink],
+  imports: [AsyncPipe, ButtonComponent, ImagePlaceholderComponent, LucideAngularModule, RouterLink],
   templateUrl: './pets-detail.component.html',
   styleUrl: './pets-detail.component.scss'
 })
