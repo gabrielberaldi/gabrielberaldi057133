@@ -21,11 +21,12 @@ export class InputComponent implements ControlValueAccessor {
   protected disabled = false;
   protected value = '';
   
-  private errorMessages: Record<string, any> = {
+  private errorMessages: Record<string, string | ((err: any) => string)> = {
     email: 'E-mail inválido',
     required: 'Campo obrigatório',
     maxlength: (err: any) => `Limite máximo de ${err.requiredLength} caracteres`,
-    minlength: (err: any) => `Mínimo de ${err.requiredLength} caracteres`
+    minlength: (err: any) => `Mínimo de ${err.requiredLength} caracteres`,
+    min: (err: any) => `Valor deve ser no mínimo ${err.min}`
   };
   
   protected onChange: any = () => {};
@@ -39,7 +40,8 @@ export class InputComponent implements ControlValueAccessor {
 
   protected get isInvalid(): boolean { 
     const control = this.ngControl?.control;
-    return !!control && control.invalid && (control.dirty || control.touched);
+    const invalid = !!control && control.invalid && (control.dirty || control.touched);
+    return invalid;
   }
 
   protected get isRequired(): boolean { 
@@ -64,6 +66,7 @@ export class InputComponent implements ControlValueAccessor {
     const value = (event.target as HTMLInputElement).value;
     this.value = value;
     this.onChange(value);
+    this.onTouched();
   }
 
   registerOnChange(fn: any): void { 

@@ -42,7 +42,7 @@ export class PetFormComponent implements OnInit, OnDestroy {
     id: [null as number | null],
     nome: ['', Validators.required],
     raca: ['', Validators.required],
-    idade: [0, Validators.required]
+    idade: [0, [Validators.required, Validators.min(0)]]
   });
 
   protected petId!: number;

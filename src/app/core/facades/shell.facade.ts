@@ -15,7 +15,7 @@ export class ShellFacade {
   readonly isSidebarOpen$ = this._isSidebarOpen$.asObservable();
 
   readonly sidebarIcon$ = this.isSidebarOpen$.pipe(
-    map(isOpen => isOpen ? PanelRightCloseIcon : PanelRightOpenIcon)
+    map(isOpen => isOpen ? PanelRightOpenIcon : PanelRightCloseIcon)
   );
 
   setBreadCrumbs(config: BreadcrumbConfig): void {

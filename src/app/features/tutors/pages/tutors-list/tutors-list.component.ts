@@ -57,7 +57,7 @@ export class TutorsListComponent implements OnInit {
       breadcrumbs: [{ label: 'Tutores' }, { label: 'Listagem' }],
       button: { 
         icon: PlusIcon,
-        label: 'Adicionar',
+        label: 'Adicionar novo tutor',
         link: '/shell/tutors/new',
       }
     };

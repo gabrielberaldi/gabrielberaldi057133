@@ -19,7 +19,7 @@
       <form class="flex flex-col gap-4 space-y-6" [formGroup]="petForm" (ngSubmit)="onSave()" >
 
         <app-upload 
-          disabledMessage="Upload disponível após cadastrar o pet"
+          disabledMessage="Upload de foto disponível após cadastrar o pet"
           [currentPhotoUrl]="(petsFacade.pet$ | async)?.foto?.url"
           [disabled]="!petId"
           [isUploading]="petsFacade.loading$ | async"

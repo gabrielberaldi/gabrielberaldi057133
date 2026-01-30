@@ -58,7 +58,7 @@ export class PetsListComponent implements OnInit {
       breadcrumbs: [{ label: 'Pets' }, { label: 'Listagem' }],
       button: { 
         icon: PlusIcon,
-        label: 'Adicionar',
+        label: 'Adicionar novo pet',
         link: '/shell/pets/new',
       }
     };
