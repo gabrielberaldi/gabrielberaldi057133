@@ -20,10 +20,10 @@ export class DialogService {
     }
   }
 
-  open(data: DialogData): Observable<boolean> {
+  open({ cancelText = 'Cancelar', confirmText = 'Confirmar', ...data }: DialogData): Observable<boolean> {
     this.close(false); 
     this._currentDialogResolver$ = new Subject<boolean>();
-    this._data$.next(data);
+    this._data$.next({ cancelText, confirmText, ...data });
     return this._currentDialogResolver$.asObservable();
   }
  

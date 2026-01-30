@@ -81,8 +81,6 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
     const dialogData: DialogData = {
       title: 'Excluir Tutor',
       message: `Tem certeza que deseja remover ${this.tutorForm.get('nome')?.value}? Essa ação não pode ser desfeita.`,
-      confirmText: 'Sim',
-      cancelText: 'Cancelar',
       type: 'danger'
     };
 
@@ -106,7 +104,6 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
     const dialogData: DialogData = {
       title: 'Remover Foto',
       message: 'Tem certeza que deseja remover a foto deste tutor?',
-      confirmText: 'Sim',
       type: 'danger'
     };
 
@@ -154,7 +151,6 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
     const dialogData: DialogData = {
       title: 'Remover Vínculo',
       message: 'Tem certeza que deseja desvincular este pet deste tutor?',
-      confirmText: 'Sim',
       type: 'danger'
     };
 

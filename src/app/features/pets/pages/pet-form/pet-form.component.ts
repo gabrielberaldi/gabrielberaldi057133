@@ -62,8 +62,6 @@ export class PetFormComponent implements OnInit, OnDestroy {
     const dialogData: DialogData = {  
       title: 'Excluir Pet',
       message: `Tem certeza que deseja remover ${this.petForm.get('nome')?.value}? Essa ação não pode ser desfeita.`,
-      confirmText: 'Sim',
-      cancelText: 'Cancelar',
       type: 'danger'
     };
 
@@ -87,7 +85,6 @@ export class PetFormComponent implements OnInit, OnDestroy {
     const dialogData: DialogData = {
       title: 'Remover Foto',
       message: 'Tem certeza que deseja remover a foto deste pet?',
-      confirmText: 'Sim',
       type: 'danger'
     };
 
