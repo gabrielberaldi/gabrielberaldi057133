@@ -1,0 +1,21 @@
+<div class="toast toast-top toast-end z-9999 p-4">
+  @for (toast of (toastService.toasts$ | async); track toast.id) {
+    <div 
+      class="alert shadow-lg mb-3 min-w-75 flex justify-between animate-toast"
+      [ngClass]="styles[toast.type].class">
+      <lucide-angular 
+        [name]="styles[toast.type].icon" 
+        [size]="20" 
+        class="text-white">
+      </lucide-angular>
+      <div class="flex items-center gap-2 text-white">
+        <span class="text-sm font-semibold">{{ toast.message }}</span>
+      </div>
+      <button 
+        (click)="toastService.remove(toast.id)" 
+        class="btn btn-ghost btn-xs btn-circle text-white hover:bg-black/10">
+        ✕
+      </button>
+    </div>
+  }
+</div>
