@@ -1,0 +1,41 @@
+<div class="space-y-4">
+  <app-input 
+    placeholder="Buscar pet pelo nome..." 
+    type="text" 
+    [formControl]="searchControl" 
+    [icon]="Search">
+  </app-input>
+
+  <div class="py-2 max-h-64 overflow-y-auto space-y-2 mt-2 custom-scrollbar">
+    @for (pet of pets; track pet.id) {
+      <div 
+        class="flex items-center justify-between p-3 hover:bg-primary/5 rounded-xl cursor-pointer border border-transparent hover:border-primary/20 transition-all group"
+        (click)="select.emit(pet.id!)">
+        
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-base-300 overflow-hidden">
+            @if (pet?.foto?.url) {
+              <img [src]="pet.foto.url" class="object-cover h-full w-full">
+            } @else {
+              <div class="flex items-center justify-center h-full opacity-20 text-base-content">
+                <lucide-angular [img]="PawPrint" size="16"></lucide-angular>
+              </div>
+            }
+          </div>
+          <div class="flex flex-col text-left">
+            <span class="text-sm font-bold group-hover:text-primary transition-colors">
+              {{ pet.nome }}
+            </span>
+            <span class="text-[10px] uppercase opacity-50">{{ pet.raca }}</span>
+          </div>
+        </div>
+        
+        <lucide-angular [img]="Link" size="16" class="text-primary opacity-0 group-hover:opacity-100 transition-all"></lucide-angular>
+      </div>
+    } @empty {
+      <div class="text-center py-8 opacity-40 italic text-sm font-medium text-base-content">
+        Nenhum pet encontrado.
+      </div>
+    }
+  </div>
+</div>
