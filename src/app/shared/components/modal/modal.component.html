@@ -1,0 +1,25 @@
+<dialog class="modal" [class.modal-open]="isOpen">
+  <div class="modal-box border border-base-200 shadow-2xl relative" [ngClass]="customClass">
+    
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-bold text-lg italic uppercase tracking-tight">
+        <ng-content select="[title]"></ng-content>
+      </h3>
+      <button (click)="close.emit()" class="btn btn-sm btn-circle btn-ghost">
+        ✕
+      </button>
+    </div>
+
+    <div class="py-2">
+      <ng-content></ng-content>
+    </div>
+
+    <div class="modal-action">
+      <ng-content select="[footer]"></ng-content>
+    </div>
+  </div>
+  
+  <form method="dialog" class="modal-backdrop">
+    <button (click)="close.emit()">close</button>
+  </form>
+</dialog>
