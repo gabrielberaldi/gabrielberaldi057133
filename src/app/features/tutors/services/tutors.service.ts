@@ -47,6 +47,14 @@ export class TutorsService {
     return this.httpClient.delete<void>(`${this.apiUrl}/tutores/${tutorId}/fotos/${photoId}`);
   } 
 
+  linkPet(tutorId: number, petId: number): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiUrl}/tutores/${tutorId}/pets/${petId}`, null);
+  }
+
+  unlinkPet(tutorId: number, petId: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiUrl}/tutores/${tutorId}/pets/${petId}`);
+  }
+
   private params(filters: Filters): HttpParams {
     return new HttpParams({
       fromObject: {

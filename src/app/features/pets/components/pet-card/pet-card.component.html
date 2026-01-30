@@ -5,17 +5,11 @@
 	<figure class="aspect-video w-full overflow-hidden bg-base-200 relative">
 		@if (pet.foto?.url) {
 		<img 
+			class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
 			[alt]="pet.nome"
-			[src]="pet.foto?.url" 
-			class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500" />
+			[src]="pet.foto?.url" />
 		} @else {
 			<app-image-placeholder></app-image-placeholder>
-		<!-- <div class="flex flex-col items-center justify-center w-full h-full opacity-20">
-			<lucide-angular [img]="PawPrint" [size]="40"></lucide-angular>
-			<span class="text-xs font-bold mt-2 uppercase tracking-widest">
-				Sem foto disponível
-			</span>
-		</div> -->
 		}
 	</figure>
 

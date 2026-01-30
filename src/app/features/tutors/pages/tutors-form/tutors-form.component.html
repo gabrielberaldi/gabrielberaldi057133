@@ -1,71 +1,69 @@
-<div class="max-w-2xl mx-auto space-y-6">
-  <div class="card bg-base-100 shadow-sm border border-base-200">
-    <div class="card-body p-8">
+<div class="max-w-6xl mx-auto px-4">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <section class="lg:col-span-7 space-y-6">
+      <div class="card bg-base-100 shadow-sm border border-base-200">
+        <div class="card-body p-6 md:p-8">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-3 bg-primary/10 text-primary rounded-xl">
+              <lucide-angular [img]="UserRound" size="24"></lucide-angular>
+            </div>
+            <div>
+              <h2 class="card-title text-2xl font-bold italic tracking-tight uppercase">Dados do tutor</h2>
+              <p class="text-sm text-base-content/50 leading-none">Informações pessoais</p>
+            </div>
+          </div>
 
-      <div class="flex items-center gap-3 mb-6">
-        <div class="p-3 bg-primary/10 text-primary rounded-xl">
-          <lucide-angular [img]="UserRound" size="24"></lucide-angular>
-        </div>
-        <div>
-          <h2 class="card-title text-2xl font-bold">
-            Dados do tutor
-          </h2>
-          <p class="text-sm text-base-content/50">
-            Informações pessoais
-          </p>
+          <form class="flex flex-col gap-5" [formGroup]="tutorForm" (ngSubmit)="onSave()">
+            <app-upload 
+              disabledMessage="Upload disponível após cadastrar o tutor"
+              [currentPhotoUrl]="(tutorsFacade.tutor$ | async)?.foto?.url"
+              [disabled]="!tutorId"
+              [isUploading]="tutorsFacade.loading$ | async"
+              (fileChange)="onFileChange($event)"
+              (removeRequest)="onRemoveRequest()">
+            </app-upload>
+
+            <div class="grid grid-cols-1 gap-4">
+              <app-input formControlName="nome" label="Nome Completo" placeholder="Ex: João da Silva" type="text" />
+              <app-input formControlName="telefone" label="Telefone" placeholder="(00) 00000-0000" type="text" />
+              <app-input formControlName="endereco" label="Endereço" placeholder="Rua, número, bairro..." type="text" />
+            </div>
+
+            <div class="flex flex-row items-center justify-end gap-3 pt-6 border-t border-base-200">
+              <app-button variant="btn-outline" [icon]="ArrowLeft" routerLink="/shell/tutors">Voltar</app-button>
+              @if (!!tutorId) {
+                <app-button variant="btn-error" [icon]="Trash2" (action)="onDelete()">Excluir</app-button>
+              }
+              <app-button type="submit" [disabled]="tutorForm.invalid" [icon]="Save">Salvar</app-button>
+            </div>
+          </form>
         </div>
       </div>
-
-      <form class="flex flex-col gap-4 space-y-6" [formGroup]="tutorForm" (ngSubmit)="onSave()">
-
-        <app-upload 
-          disabledMessage="Upload disponível após cadastrar o tutor"
-          [currentPhotoUrl]="(tutorsFacade.tutor$ | async)?.foto?.url"
-          [disabled]="!tutorId"
-          [isUploading]="tutorsFacade.loading$ | async"
-          (fileChange)="onFileChange($event)"
-          (removeRequest)="onRemoveRequest()">
-        </app-upload>
-
-        <div class="flex flex-col gap-2.5">
-          <app-input 
-            formControlName="nome" 
-            label="Nome Completo" 
-            placeholder="Ex: João da Silva" 
-            type="text">
-          </app-input>
-
-          <app-input 
-            formControlName="telefone" 
-            label="Telefone" 
-            placeholder="(00) 00000-0000" 
-            type="text">
-          </app-input>
-
-          <app-input 
-            formControlName="endereco" 
-            label="Endereço" 
-            placeholder="Rua, número, bairro, cidade - UF" 
-            type="text">
-          </app-input>
-        </div>
-
-        <div class="flex flex-row items-center justify-center gap-3 pt-6 border-t border-base-200">
-          <app-button variant="btn-outline" [icon]="ArrowLeft" [iconSize]="20" routerLink="/shell/tutors">
-            Voltar
-          </app-button>
-          @if (!!tutorId) {
-            <app-button variant="btn-error" [icon]="Trash2" [iconSize]="20" (action)="onDelete()">
-              Excluir
-            </app-button>
-          }
-          <app-button type="submit" [disabled]="tutorForm.invalid" [icon]="Save" [iconSize]="20">
-            Salvar
-          </app-button>
-        </div>
-
-      </form>
-    </div>
+    </section>
+  
+    <app-tutor-pets-list 
+      class="lg:col-span-5"
+      [tutorId]="tutorId"
+      [pets]="(tutorsFacade.tutor$ | async)?.pets || []"
+      (addRequest)="openLinkModal()"
+      (removeRequest)="onUnlinkPet($event)">
+    </app-tutor-pets-list>
   </div>
-
 </div>
+
+<app-modal [isOpen]="isModalOpen" (close)="onModalClose()" customClass="max-w-md">
+  <div title class="flex items-center gap-2">
+    <lucide-angular [img]="SearchIcon" size="20"></lucide-angular>
+    Vincular Pet
+  </div>
+  <app-tutor-pet-select
+    [pets]="(petsFacade.petsList$ | async)?.content || []"
+    [searchControl]="petSearchControl"
+    (select)="onConfirmLink($event)">
+  </app-tutor-pet-select>
+  <div footer>
+    <app-button variant="btn-neutral" (action)="onModalClose()">
+      Cancelar
+    </app-button>
+  </div>
+</app-modal>

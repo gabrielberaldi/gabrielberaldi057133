@@ -1,24 +1,38 @@
 import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '../../../../shared/components/dialog/services/dialog.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ArrowLeft, LucideAngularModule, Save, Trash2, UserRound } from 'lucide-angular';
+import { ArrowLeft, Info, Link, LucideAngularModule, Save, Search, SearchIcon, Trash2, UserRound } from 'lucide-angular';
 import { TutorsFacade } from '../../facades/tutors.facade';
 import { ShellFacade } from '../../../../core/facades/shell.facade';
 import { InputComponent } from '../../../../shared/components/input/input.component';
 import { UploadComponent } from '../../../../shared/components/upload/upload.component';
 import { BreadcrumbConfig } from '../../../../core/models/breadcrumb-config.model';
 import { DialogData } from '../../../../shared/components/dialog/models/dialog-data.model';
-import { filter, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, startWith, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Tutor } from '../../models/tutor.model';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { AsyncPipe } from '@angular/common';
+import { PetsFacade } from '../../../pets/facades/pets.facade';
+import { TutorPetsListComponent } from '../../components/tutor-pets-list/tutor-pets-list.component';
+import { ModalComponent } from '../../../../shared/components/modal/modal.component';
+import { TutorPetSelectComponent } from '../../components/tutor-pet-select/tutor-pet-select.component';
 
 @Component({
   selector: 'app-tutors-form',
   standalone: true,
-  imports: [AsyncPipe, ButtonComponent, InputComponent, LucideAngularModule, ReactiveFormsModule, RouterLink, UploadComponent],
+  imports: [AsyncPipe, 
+    ButtonComponent, 
+    InputComponent, 
+    LucideAngularModule, 
+    ModalComponent, 
+    ReactiveFormsModule, 
+    RouterLink,
+    UploadComponent, 
+    TutorPetsListComponent, 
+    TutorPetSelectComponent
+  ],
   templateUrl: './tutors-form.component.html',
   styleUrl: './tutors-form.component.scss'
 })
@@ -30,15 +44,16 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
 
   private readonly dialogService = inject(DialogService);
 
-  private readonly shellFacade = inject(ShellFacade);
+  protected readonly petsFacade = inject(PetsFacade);
   protected readonly tutorsFacade = inject(TutorsFacade);
+  private readonly shellFacade = inject(ShellFacade);
 
-  protected readonly ArrowLeft = ArrowLeft;
-  protected readonly UserRound = UserRound;
-  protected readonly Trash2 = Trash2;
-  protected readonly Save = Save;
+  readonly ArrowLeft = ArrowLeft;
+  readonly Save = Save;
+  readonly Trash2 = Trash2;
+  readonly UserRound = UserRound;
+  readonly SearchIcon = SearchIcon
   
-
   protected readonly tutorForm = this.formBuilder.nonNullable.group({
     id: [null as number | null],
     nome: ['', [Validators.required, Validators.maxLength(100)]],
@@ -48,9 +63,13 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
 
   protected tutorId!: number;
 
+  protected isModalOpen = false;
+  protected readonly petSearchControl = new FormControl('');
+
   ngOnInit(): void {
     this.tutorId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.initTutorStateListener();
+    this.listenToSearchControl();
     this.initRouteListener();
   }
 
@@ -59,7 +78,6 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
   }
 
   protected onDelete(): void {
-
     const dialogData: DialogData = {
       title: 'Excluir Tutor',
       message: `Tem certeza que deseja remover ${this.tutorForm.get('nome')?.value}? Essa ação não pode ser desfeita.`,
@@ -117,6 +135,40 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
+  
+  protected openLinkModal(): void {
+    this.isModalOpen = true;
+    this.petsFacade.search(''); 
+  }
+
+  protected onConfirmLink(petId: number): void {
+    this.tutorsFacade.linkPet(this.tutorId, petId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.onModalClose();
+        this.petSearchControl.reset();
+      });
+  }
+
+  protected onUnlinkPet(petId: number): void {
+    const dialogData: DialogData = {
+      title: 'Remover Vínculo',
+      message: 'Tem certeza que deseja desvincular este pet deste tutor?',
+      confirmText: 'Sim',
+      type: 'danger'
+    };
+
+    this.dialogService.open(dialogData).pipe(
+      filter(confirmed => confirmed),
+      switchMap(() => this.tutorsFacade.unlinkPet(this.tutorId, petId)),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe();
+  }
+
+  protected onModalClose(): void {
+    this.isModalOpen = false;
+  }
+
   private initRouteListener(): void {
     this.activatedRoute.paramMap
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -129,7 +181,7 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
           this.setBreadcrumbs();
         }
       }
-      );
+    );
   }
 
   private initTutorStateListener(): void {
@@ -142,12 +194,21 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
         this.tutorForm.patchValue(tutor);
         this.setBreadcrumbs(tutor.nome);
       }
-      );
+    );
   }
 
   private setBreadcrumbs(tutorName?: string): void {
     const config: BreadcrumbConfig = { breadcrumbs: [{ label: 'Tutores' }, { label: tutorName ?? 'Cadastro' }] };
     this.shellFacade.setBreadCrumbs(config);
+  }
+
+  private listenToSearchControl(): void {
+    this.petSearchControl.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      distinctUntilChanged(),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(value => this.petsFacade.search(value ?? ''));
   }
 
 }

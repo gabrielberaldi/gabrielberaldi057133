@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, finalize, Observable, shareReplay, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, finalize, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
 import { Filters } from '../../../shared/model/filters.model';
 import { Router } from '@angular/router';
 import { Attachment } from '../../../shared/model/attachment.model';
@@ -57,6 +57,29 @@ export class TutorsFacade {
     )
   }
 
+  linkPet(tutorId: number, petId: number): Observable<Tutor> {
+    this._loading$.next(true);
+    return this.tutorsService.linkPet(tutorId, petId).pipe(
+      switchMap(() => this.tutorsService.getById(tutorId)),
+      tap((updatedTutor) => this._tutor$.next(updatedTutor)),
+      finalize(() => this._loading$.next(false))
+    )
+  }
+
+  unlinkPet(tutorId: number, petId: number): Observable<void> {
+    this._loading$.next(true);
+    return this.tutorsService.unlinkPet(tutorId, petId).pipe(
+      tap(() => {
+        const currentTutor = structuredClone(this._tutor$.getValue());
+        if (currentTutor && currentTutor.pets) {
+          const filteredPets = currentTutor.pets.filter(({ id }) => id !== petId);
+          this._tutor$.next({ ...currentTutor, pets: filteredPets });
+        }
+      }),
+      finalize(() => this._loading$.next(false))
+    )
+  }
+
   uploadAttachment(tutorId: number, file: File): Observable<Attachment> {
     this._loading$.next(true);
     return this.tutorsService.uploadAttachment(tutorId, file).pipe(
@@ -94,7 +117,8 @@ export class TutorsFacade {
     const request$ = this.request(tutorRequest);
     return request$.pipe(
       tap(savedTutor => { 
-        this._tutor$.next(savedTutor);
+        const currentTutor = this._tutor$.getValue();
+        this._tutor$.next({ ...currentTutor, ...savedTutor });
         if (!tutorRequest.id) this.router.navigate([`/shell/tutors/edit/${savedTutor.id}`])
       }),
       finalize(() => this._loading$.next(false))

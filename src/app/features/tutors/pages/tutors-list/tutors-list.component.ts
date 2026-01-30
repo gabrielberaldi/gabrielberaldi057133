@@ -40,7 +40,7 @@ export class TutorsListComponent implements OnInit {
   }
   
   protected onViewDetails(petId: number): void {
-    this.router.navigate([`/shell/tutors/details/${petId}`]);
+    this.router.navigate([`/shell/tutors/edit/${petId}`]);
   }
 
   private listenToSearchControl(): void {

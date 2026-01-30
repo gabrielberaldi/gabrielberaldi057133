@@ -38,7 +38,6 @@ export class PetFormComponent implements OnInit, OnDestroy {
   protected readonly Trash2 = Trash2;
   protected readonly Save = Save;
 
-
   protected readonly petForm = this.formBuilder.nonNullable.group({
     id: [null as number | null],
     nome: ['', Validators.required],
@@ -93,10 +92,7 @@ export class PetFormComponent implements OnInit, OnDestroy {
     };
 
     const photoId = this.petsFacade.currentPetSnapshot?.foto?.id;
-
-    if (!this.petId || !photoId) {
-      return;
-    }
+    if (!photoId) return;
 
     this.dialogService.open(dialogData)
       .pipe(

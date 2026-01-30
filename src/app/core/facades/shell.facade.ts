@@ -9,7 +9,7 @@ import { BreadcrumbConfig } from '../models/breadcrumb-config.model';
 export class ShellFacade {
 
   private readonly _breadcrumbConfig$ = new BehaviorSubject<BreadcrumbConfig | undefined>(undefined);
-  private readonly _isSidebarOpen$ = new BehaviorSubject<boolean>(true);
+  private readonly _isSidebarOpen$ = new BehaviorSubject<boolean>(false);
   
   readonly breadcrumbConfig$ = this._breadcrumbConfig$.asObservable();
   readonly isSidebarOpen$ = this._isSidebarOpen$.asObservable();
