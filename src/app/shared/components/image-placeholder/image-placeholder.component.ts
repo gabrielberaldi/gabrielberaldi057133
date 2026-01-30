@@ -11,7 +11,7 @@ import { LucideAngularModule, PawPrint } from 'lucide-angular';
 export class ImagePlaceholderComponent {
  
   @Input() icon = PawPrint;
-  @Input() label = 'Nenhuma foto disponível';
+  @Input() label?: string;
   @Input() size = 40;
 
 }

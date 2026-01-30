@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Info, LucideAngularModule, PawPrint, Plus, Trash2, Unlink } from 'lucide-angular';
+import { Info, LucideAngularModule, PawPrint, Plus, Trash2 } from 'lucide-angular';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { Pet } from '../../../pets/models/pet.model';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ImagePlaceholderComponent } from '../../../../shared/components/image-placeholder/image-placeholder.component';
 
 @Component({
   selector: 'app-tutor-pets-list',
   standalone: true,
-  imports: [ButtonComponent, LucideAngularModule, ReactiveFormsModule],
+  imports: [ButtonComponent, ImagePlaceholderComponent, LucideAngularModule, ReactiveFormsModule],
   templateUrl: './tutor-pets-list.component.html',
   styleUrl: './tutor-pets-list.component.scss'
 })

@@ -9,7 +9,7 @@
         [alt]="tutor.nome"
         [src]="tutor.foto?.url" />
     } @else {
-      <app-image-placeholder [icon]="UserRound"></app-image-placeholder>
+      <app-image-placeholder label="Sem foto disponível" [icon]="UserRound"></app-image-placeholder>
     }
   </figure>
 
@@ -23,13 +23,6 @@
         <span class="text-base-content/60 font-medium">Contato:</span>
         <span class="text-base-content/80 font-semibold">
           {{ tutor.telefone }}
-        </span>
-      </div>
-
-      <div class="flex items-center gap-2 text-sm">
-        <span class="text-base-content/60 font-medium">E-mail:</span>
-        <span class="text-base-content/80 truncate text-xs" [title]="tutor.email">
-          {{ tutor.email }}
         </span>
       </div>
     </div>
