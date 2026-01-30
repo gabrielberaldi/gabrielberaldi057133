@@ -4,11 +4,13 @@ import { UserCredentials } from "../models/user-credentials.model";
 import { BehaviorSubject, map, Observable, tap, throwError } from "rxjs";
 import { AuthResponse } from "../models/auth-response.model";
 import { Router } from "@angular/router";
+import { ToastService } from "../../../shared/components/toast/services/toast.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthFacade { 
 
   private readonly authService = inject(AuthService);
+  private readonly toastService = inject(ToastService);
   private readonly router = inject(Router);
   
   private readonly authKey = 'auth_data';
@@ -24,6 +26,7 @@ export class AuthFacade {
   login(userCredentials: UserCredentials): Observable<AuthResponse> {
     return this.authService.login(userCredentials).pipe(
       tap(response => {
+        this.toastService.show({ message: 'Login realizado com sucesso', type: 'success' });
         this.updateSession(response);
         this.router.navigate(['/shell']);
       })

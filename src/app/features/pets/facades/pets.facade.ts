@@ -6,6 +6,7 @@ import { PetRequest } from '../models/pet-request.model';
 import { Pet } from '../models/pet.model';
 import { Router } from '@angular/router';
 import { Attachment } from '../../../shared/model/attachment.model';
+import { ToastService } from '../../../shared/components/toast/services/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class PetsFacade {
 
   private readonly petsService = inject(PetsService);
   private readonly router = inject(Router);
+  private readonly toastService = inject(ToastService);
 
   private readonly _filters$ = new BehaviorSubject<Filters>({ page: 0, size: 10 });
   private readonly _loading$ = new BehaviorSubject<boolean>(false);
@@ -41,7 +43,10 @@ export class PetsFacade {
 
   deletePet(petId: number): Observable<void> {
     return this.petsService.delete(petId).pipe(
-      tap(() => this.router.navigate(['/shell/pets/list']))
+      tap(() => {
+        this.toastService.show({ message: 'Pet excluido com sucesso', type: 'success' });
+        this.router.navigate(['/shell/pets/list']);
+      })
     )
   }
 
@@ -61,6 +66,7 @@ export class PetsFacade {
     this._loading$.next(true);
     return this.petsService.uploadAttachment(petId, file).pipe(
       tap((foto) => {
+        this.toastService.show({ message: 'Upload de foto feito com sucesso', type: 'success' });
         const currentPet = this._pet$.getValue();
         if (currentPet) {
           const updatedPet: Pet = { ...currentPet, foto };
@@ -77,6 +83,7 @@ export class PetsFacade {
       tap(() => {
         const currentPet = this._pet$.getValue();
         if (currentPet) {
+          this.toastService.show({ message: 'Foto removida com sucesso', type: 'success' });
           const updatedPet: Pet = { ...currentPet, foto: null };
           this._pet$.next(updatedPet);
         }
@@ -94,6 +101,7 @@ export class PetsFacade {
     const request$ = this.request(petRequest);
     return request$.pipe(
       tap(savedPet => { 
+        this.toastService.show({ message: `Pet ${petRequest.id? 'atualizado' : 'cadastrado'} com sucesso`, type: 'success' });
         this._pet$.next(savedPet);
         if (!petRequest.id) this.router.navigate([`/shell/pets/edit/${savedPet.id}`])
       }),

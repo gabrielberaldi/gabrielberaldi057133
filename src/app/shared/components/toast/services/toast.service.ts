@@ -10,12 +10,12 @@ export class ToastService {
   private readonly _toasts$ = new BehaviorSubject<ToastConfig[]>([]);
   readonly toasts$ = this._toasts$.asObservable();
 
-  show({ message, type, expirationTimer = 3000 }: Omit<ToastConfig, 'id'>): void {
+  show({ message, type, expirationTimer = 5000 }: Omit<ToastConfig, 'id'>): void {
     const id = Date.now();
     const newToast: ToastConfig = { id, message, type, expirationTimer };
     const currentToasts = this._toasts$.getValue();
     this._toasts$.next([...currentToasts, newToast]);
-    setTimeout(() => this.remove(id), 3000);
+    setTimeout(() => this.remove(id), expirationTimer);
   }
 
   remove(id: number): void {

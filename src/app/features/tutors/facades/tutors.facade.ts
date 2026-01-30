@@ -6,6 +6,7 @@ import { Attachment } from '../../../shared/model/attachment.model';
 import { TutorRequest } from '../models/tutor-request.model';
 import { Tutor } from '../models/tutor.model';
 import { TutorsService } from '../services/tutors.service';
+import { ToastService } from '../../../shared/components/toast/services/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class TutorsFacade {
 
   private readonly tutorsService = inject(TutorsService);
   private readonly router = inject(Router);
+  private readonly toastService = inject(ToastService);
 
   private readonly _filters$ = new BehaviorSubject<Filters>({ page: 0, size: 10 });
   private readonly _loading$ = new BehaviorSubject<boolean>(false);
@@ -41,7 +43,10 @@ export class TutorsFacade {
 
   deleteTutor(tutorId: number): Observable<void> {
     return this.tutorsService.delete(tutorId).pipe(
-      tap(() => this.router.navigate(['/shell/tutors/list']))
+      tap(() => {
+        this.toastService.show({ message: 'Tutor excluido com sucesso', type: 'success' });
+        this.router.navigate(['/shell/tutors/list'])
+      })
     )
   }
 
@@ -61,7 +66,10 @@ export class TutorsFacade {
     this._loading$.next(true);
     return this.tutorsService.linkPet(tutorId, petId).pipe(
       switchMap(() => this.tutorsService.getById(tutorId)),
-      tap((updatedTutor) => this._tutor$.next(updatedTutor)),
+      tap((updatedTutor) => {
+        this.toastService.show({ message: 'Pet vinculado com sucesso', type: 'success' });
+        this._tutor$.next(updatedTutor)
+      }),
       finalize(() => this._loading$.next(false))
     )
   }
@@ -70,6 +78,7 @@ export class TutorsFacade {
     this._loading$.next(true);
     return this.tutorsService.unlinkPet(tutorId, petId).pipe(
       tap(() => {
+        this.toastService.show({ message: 'Pet desvinculado com sucesso', type: 'success' });
         const currentTutor = structuredClone(this._tutor$.getValue());
         if (currentTutor && currentTutor.pets) {
           const filteredPets = currentTutor.pets.filter(({ id }) => id !== petId);
@@ -84,6 +93,7 @@ export class TutorsFacade {
     this._loading$.next(true);
     return this.tutorsService.uploadAttachment(tutorId, file).pipe(
       tap((foto) => {
+        this.toastService.show({ message: 'Upload de foto feito com sucesso', type: 'success' });
         const currentTutor = this._tutor$.getValue();
         if (currentTutor) {
           const updatedTutor: Tutor = { ...currentTutor, foto };
@@ -100,6 +110,7 @@ export class TutorsFacade {
       tap(() => {
         const currentTutor = this._tutor$.getValue();
         if (currentTutor) {
+          this.toastService.show({ message: 'Foto removida com sucesso', type: 'success' });
           const updatedTutor: Tutor = { ...currentTutor, foto: null };
           this._tutor$.next(updatedTutor);
         }
@@ -117,6 +128,7 @@ export class TutorsFacade {
     const request$ = this.request(tutorRequest);
     return request$.pipe(
       tap(savedTutor => { 
+        this.toastService.show({ message: `Tutor ${tutorRequest.id? 'atualizado' : 'cadastrado'} com sucesso`, type: 'success' });
         const currentTutor = this._tutor$.getValue();
         this._tutor$.next({ ...currentTutor, ...savedTutor });
         if (!tutorRequest.id) this.router.navigate([`/shell/tutors/edit/${savedTutor.id}`])
