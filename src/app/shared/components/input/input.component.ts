@@ -1,11 +1,12 @@
 import { Component, inject, Input, Optional, Self } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { LucideAngularModule, LucideIconData } from 'lucide-angular';
+import { InputMaskDirective } from '../../directives/input-mask.directive';
 
 @Component({
   selector: 'app-input',
   standalone: true,
-  imports: [ LucideAngularModule, ReactiveFormsModule ],
+  imports: [ InputMaskDirective, LucideAngularModule, ReactiveFormsModule ],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
 })
@@ -14,6 +15,7 @@ export class InputComponent implements ControlValueAccessor {
   @Input() icon?: LucideIconData;
   @Input() label?: string;
   @Input() placeholder: string = '';
+  @Input() mask!: 'phone';
   @Input({ required: true }) type!: 'text' | 'password' | 'number';
 
   @Self() @Optional() protected ngControl = inject(NgControl, { self: true, optional: true });
