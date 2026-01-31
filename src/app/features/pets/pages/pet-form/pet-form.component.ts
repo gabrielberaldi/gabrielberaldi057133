@@ -46,6 +46,7 @@ export class PetFormComponent implements OnInit, OnDestroy {
   });
 
   protected petId!: number;
+  protected pendingPhoto: File | null = null;
 
   ngOnInit(): void {
     this.petId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -74,13 +75,20 @@ export class PetFormComponent implements OnInit, OnDestroy {
   }
   
   protected onFileChange(event: File): void {
-    if (!this.petId) return;
+    if (!this.petId) {
+      this.pendingPhoto = event;
+      return;
+    };
+
     this.petsFacade.uploadAttachment(this.petId, event)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe();
   }
 
   protected onRemoveRequest(): void {
+    if (!this.petId) {
+      this.pendingPhoto = null;
+    };
 
     const dialogData: DialogData = {
       title: 'Remover Foto',
@@ -89,7 +97,7 @@ export class PetFormComponent implements OnInit, OnDestroy {
     };
 
     const photoId = this.petsFacade.currentPetSnapshot?.foto?.id;
-    if (!photoId) return;
+    if (!this.petId || !photoId) return;
 
     this.dialogService.open(dialogData)
       .pipe(
@@ -105,7 +113,7 @@ export class PetFormComponent implements OnInit, OnDestroy {
       return this.petForm.markAllAsTouched();
     };
 
-    this.petsFacade.store(this.petForm.getRawValue())
+    this.petsFacade.store(this.petForm.getRawValue(), this.pendingPhoto)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe();
   }

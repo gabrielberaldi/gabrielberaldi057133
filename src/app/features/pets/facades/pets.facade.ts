@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { PetsService } from '../services/pets.service';
-import { BehaviorSubject, finalize, Observable, shareReplay, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, map, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
 import { Filters } from '../../../shared/model/filters.model';
 import { PetRequest } from '../models/pet-request.model';
 import { Pet } from '../models/pet.model';
@@ -96,13 +96,23 @@ export class PetsFacade {
     this._filters$.next({ ...this._filters$.value, nome, page: 0 });
   }
 
-  store(petRequest: PetRequest): Observable<Pet> {
+  store(petRequest: PetRequest, pendingPhoto: File | null): Observable<Pet> {
     this._loading$.next(true);
     const request$ = this.request(petRequest);
     return request$.pipe(
-      tap(savedPet => { 
+      switchMap((savedPet) => {
+        if (pendingPhoto) {
+          return this.petsService.uploadAttachment(savedPet.id!, pendingPhoto).pipe(
+            map((photo) => ({ ...savedPet, photo })),
+            catchError(() => of(savedPet))
+          )
+        };
+        return of(savedPet);
+      }),
+      tap((savedPet) => {
         this.toastService.show({ message: `Pet ${petRequest.id? 'atualizado' : 'cadastrado'} com sucesso`, type: 'success' });
-        this._pet$.next(savedPet);
+        const currentPet = this._pet$.getValue();
+        this._pet$.next({ ...currentPet, ...savedPet });
         if (!petRequest.id) this.router.navigate([`/shell/pets/edit/${savedPet.id}`])
       }),
       finalize(() => this._loading$.next(false))
