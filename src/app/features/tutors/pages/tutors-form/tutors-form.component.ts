@@ -48,11 +48,11 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
   protected readonly tutorsFacade = inject(TutorsFacade);
   private readonly shellFacade = inject(ShellFacade);
 
-  readonly ArrowLeft = ArrowLeft;
-  readonly Save = Save;
-  readonly Trash2 = Trash2;
-  readonly UserRound = UserRound;
-  readonly SearchIcon = SearchIcon
+  protected readonly ArrowLeft = ArrowLeft;
+  protected readonly Save = Save;
+  protected readonly Trash2 = Trash2;
+  protected readonly UserRound = UserRound;
+  protected readonly SearchIcon = SearchIcon
   
   protected readonly tutorForm = this.formBuilder.nonNullable.group({
     id: [null as number | null],
@@ -62,9 +62,9 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
   });
 
   protected tutorId!: number;
-
   protected isModalOpen = false;
   protected readonly petSearchControl = new FormControl('');
+  protected pendingPhoto: File | null = null;
 
   ngOnInit(): void {
     this.tutorId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
@@ -93,13 +93,21 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
   }
 
   protected onFileChange(event: File): void {
-    if (!this.tutorId) return;
+    
+    if (!this.tutorId) {
+      this.pendingPhoto = event;
+      return;
+    }
+    
     this.tutorsFacade.uploadAttachment(this.tutorId, event)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe();
   }
 
   protected onRemoveRequest(): void {
+    if (!this.tutorId) {
+      this.pendingPhoto = null;
+    };
 
     const dialogData: DialogData = {
       title: 'Remover Foto',
@@ -109,9 +117,7 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
 
     const photoId = this.tutorsFacade.currentTutorSnapshot?.foto?.id;
 
-    if (!this.tutorId || !photoId) {
-      return;
-    }
+    if (!this.tutorId || !photoId) return;
 
     this.dialogService.open(dialogData)
       .pipe(
@@ -127,11 +133,10 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
       return this.tutorForm.markAllAsTouched();
     };
 
-    this.tutorsFacade.store(this.tutorForm.getRawValue())
+    this.tutorsFacade.store(this.tutorForm.getRawValue(), this.pendingPhoto)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe();
   }
-
   
   protected openLinkModal(): void {
     this.isModalOpen = true;

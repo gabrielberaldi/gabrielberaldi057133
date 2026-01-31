@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, finalize, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, map, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
 import { Filters } from '../../../shared/model/filters.model';
 import { Router } from '@angular/router';
 import { Attachment } from '../../../shared/model/attachment.model';
@@ -123,11 +123,20 @@ export class TutorsFacade {
     this._filters$.next({ ...this._filters$.value, nome, page: 0 });
   }
 
-  store(tutorRequest: TutorRequest): Observable<Tutor> {
+  store(tutorRequest: TutorRequest, pendingPhoto: File | null): Observable<Tutor> {
     this._loading$.next(true);
     const request$ = this.request(tutorRequest);
     return request$.pipe(
-      tap(savedTutor => { 
+      switchMap((savedTutor) => {
+        if (pendingPhoto) {
+          return this.tutorsService.uploadAttachment(savedTutor.id!, pendingPhoto).pipe(
+            map((photo) => ({ ...savedTutor, photo })),
+            catchError(() => of(savedTutor))
+          )
+        };
+        return of(savedTutor);
+      }),
+      tap((savedTutor) => {
         this.toastService.show({ message: `Tutor ${tutorRequest.id? 'atualizado' : 'cadastrado'} com sucesso`, type: 'success' });
         const currentTutor = this._tutor$.getValue();
         this._tutor$.next({ ...currentTutor, ...savedTutor });

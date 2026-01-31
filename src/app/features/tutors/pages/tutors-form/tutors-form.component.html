@@ -15,9 +15,7 @@
 
           <form class="flex flex-col gap-5" [formGroup]="tutorForm" (ngSubmit)="onSave()">
             <app-upload 
-              disabledMessage="Upload de foto disponível após cadastrar o tutor"
               [currentPhotoUrl]="(tutorsFacade.tutor$ | async)?.foto?.url"
-              [disabled]="!tutorId"
               [isUploading]="tutorsFacade.loading$ | async"
               (fileChange)="onFileChange($event)"
               (removeRequest)="onRemoveRequest()">
