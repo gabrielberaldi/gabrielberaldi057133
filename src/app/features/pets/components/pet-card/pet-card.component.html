@@ -1,44 +1,17 @@
-<div
-	class="card bg-base-100 shadow-xl border border-base-200 hover:border-primary/40 transition-all duration-300 group cursor-pointer"
-	(click)="onDetail()">
+<app-profile-card 
+	[placeholderIcon]="PawPrint"
+	[imageUrl]="pet.foto?.url"
+	[title]="pet.nome"
+  (detail)="onDetail()">
 
-	<figure class="aspect-video w-full overflow-hidden bg-base-200 relative">
-		@if (pet.foto?.url) {
-		<img 
-			class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
-			[alt]="pet.nome"
-			[src]="pet.foto?.url" />
-		} @else {
-			<app-image-placeholder label="Sem foto disponível"></app-image-placeholder>
-		}
-	</figure>
-
-	<div class="card-body p-4 gap-1">
-		<h2 class="card-title text-base-content font-bold truncate" [title]="pet.nome">
-			{{ pet.nome }}
-		</h2>
-
-		<div class="flex flex-col gap-2 mt-2">
-			<div class="flex items-center gap-2 text-sm">
-				<span class="text-base-content/60 font-medium">Raça:</span>
-				<span class="badge badge-outline badge-sm text-primary font-semibold uppercase">
-					{{ pet.raca }}
-				</span>
-			</div>
-
-			<div class="flex items-center gap-2 text-sm">
-				<span class="text-base-content/60 font-medium">Idade:</span>
-				<span class="text-base-content/80">
-					{{ pet.idade }} {{ pet.idade === 1 ? 'ano' : 'anos' }}
-				</span>
-			</div>
-		</div>
-
-		<div class="card-actions justify-end mt-4">
-			<button class="btn btn-primary btn-sm btn-ghost group-hover:btn-active">
-				Ver perfil
-				<lucide-angular [img]="ChevronRight" [size]="16"></lucide-angular>
-			</button>
-		</div>
-	</div>
-</div>
+  <div info class="space-y-2">
+    <div class="flex items-center gap-2 text-sm">
+      <span class="text-base-content/60 font-medium">Raça:</span>
+      <span class="badge badge-outline badge-sm text-primary font-semibold uppercase">{{ pet.raca }}</span>
+    </div>
+    <div class="flex items-center gap-2 text-sm">
+      <span class="text-base-content/60 font-medium">Idade:</span>
+      <span class="text-base-content/80">{{ pet.idade }} {{ pet.idade === 1 ? 'ano' : 'anos' }}</span>
+    </div>
+  </div>
+</app-profile-card>
