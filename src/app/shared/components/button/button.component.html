@@ -1,11 +1,14 @@
 <button 
-  [class]="'btn ' + variant + ' ' + customClass" 
+  [class]="variantClasses + ' ' + customClass" 
   [disabled]="disabled || loading" 
   [ngClass]="{ 'btn-sm md:btn-md': responsive, 'loading': loading }"
   [type]="type" 
   (click)="onClick($event)">
-  @if (icon) {
+  @if (icon && !loading) {
     <lucide-angular [img]="icon" [size]="iconSize"></lucide-angular>
+  }
+  @if (loading) {
+    <span class="loading loading-spinner loading-xs"></span>
   }
   <span [ngClass]="{ 'hidden sm:inline': responsive && icon }">
     <ng-content></ng-content>
