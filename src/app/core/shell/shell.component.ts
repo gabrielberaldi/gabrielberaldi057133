@@ -4,14 +4,15 @@ import { MENU_ITEMS } from '../configs/menu-config';
 import { ShellFacade } from '../facades/shell.facade';
 import { AsyncPipe } from '@angular/common';
 import { AuthFacade } from '../auth/facades/auth.facade';
-import { LucideAngularModule, PanelRightCloseIcon } from 'lucide-angular';
+import { DoorOpen, LucideAngularModule, PanelRightCloseIcon } from 'lucide-angular';
 import { DialogComponent } from '../../shared/components/dialog/dialog.component';
+import { ButtonComponent } from '../../shared/components/button/button.component';
 
 
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [DialogComponent, AsyncPipe, LucideAngularModule, SidebarComponent],
+  imports: [AsyncPipe, ButtonComponent, DialogComponent, LucideAngularModule, SidebarComponent],
   templateUrl: './shell.component.html',
   styleUrl: './shell.component.scss'
 })
@@ -22,4 +23,6 @@ export class ShellComponent {
   
   protected readonly menuItems = MENU_ITEMS;
   protected readonly PanelRightCloseIcon = PanelRightCloseIcon;
+
+  protected DoorOpen = DoorOpen;
 }

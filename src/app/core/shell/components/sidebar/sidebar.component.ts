@@ -21,11 +21,6 @@ export class SidebarComponent {
   @Input({ required: true }) menuItems!: MenuItem[];
   @Input({ required: true }) sidebarIcon!: LucideIconData;
 
-  @Output() logout = new EventEmitter<void>();
   @Output() toggleSidebar = new EventEmitter<void>();
-
-  onClick(): void {
-    this.logout.emit();
-  }
 
 }
