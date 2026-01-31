@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Tutor } from '../../models/tutor.model';
 import { ChevronRight, LucideAngularModule, Mail, Phone, UserRound } from 'lucide-angular';
-import { ImagePlaceholderComponent } from '../../../../shared/components/image-placeholder/image-placeholder.component';
+import { ProfileCardComponent } from '../../../../shared/components/profile-card/profile-card.component';
 
 @Component({
   selector: 'app-tutor-card',
   standalone: true,
-  imports: [LucideAngularModule, ImagePlaceholderComponent],
+  imports: [LucideAngularModule, ProfileCardComponent],
   templateUrl: './tutor-card.component.html',
   styleUrl: './tutor-card.component.scss'
 })
