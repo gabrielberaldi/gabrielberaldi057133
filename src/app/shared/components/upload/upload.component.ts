@@ -13,7 +13,7 @@ export class UploadComponent {
 
   @Input() currentPhotoUrl: string | null | undefined = null;
   @Input() disabled: boolean = false;
-  @Input() disabledMessage: string = 'Salve para liberar o upload';
+  @Input() disabledMessage: string = '';
   @Input() isUploading: boolean | null = false;
 
   @Output() fileChange = new EventEmitter<File>();
