@@ -39,8 +39,8 @@ export class TutorsListComponent implements OnInit {
     this.tutorsFacade.changePage(page);
   }
   
-  protected onViewDetails(petId: number): void {
-    this.router.navigate([`/shell/tutors/edit/${petId}`]);
+  protected onViewDetails(tutorId: number): void {
+    this.router.navigate([`/shell/tutors/details/${tutorId}`]);
   }
 
   private listenToSearchControl(): void {

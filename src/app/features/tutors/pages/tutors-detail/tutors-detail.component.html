@@ -1,1 +1,21 @@
-<p>tutors-detail works!</p>
+@if (tutorsFacade.tutor$ | async; as tutor) {
+  <app-detail-container 
+    backLink="/shell/tutors"
+    listDetailRoutePrefix="/shell/pets/details"
+    listSubtitleProperty="raca"
+    listTitle="Pets Vinculados"
+    [editLink]="['/shell/tutors/edit', tutor.id]"
+    [imageUrl]="tutor.foto?.url"
+    [imagePlaceholder]="User"
+    [listItems]="tutor.pets"
+    [listIcon]="PawPrint"
+    [title]="tutor.nome">
+    
+    <div content> 
+      <div class="grid grid-cols-2 gap-3 md:gap-4">
+        <app-info-card label="Telefone" [value]="tutor.telefone"></app-info-card>
+        <app-info-card label="Endereço" [value]="tutor.endereco"></app-info-card>
+      </div>
+    </div>
+  </app-detail-container>
+}
