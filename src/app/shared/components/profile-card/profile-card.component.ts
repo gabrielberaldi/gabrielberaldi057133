@@ -13,7 +13,6 @@ export class ProfileCardComponent {
   @Input({ required: true }) title!: string;
   @Input() imageUrl?: string | null;
   @Input() placeholderIcon: LucideIconData = UserRound;
-  @Input() placeholderLabel: string = 'Sem imagem disponível';
   
   @Output() detail = new EventEmitter<void>();
 

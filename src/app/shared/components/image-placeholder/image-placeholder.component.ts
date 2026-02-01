@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { LucideAngularModule, PawPrint } from 'lucide-angular';
+import { LucideAngularModule, LucideIconData, PawPrint } from 'lucide-angular';
 
 @Component({
   selector: 'app-image-placeholder',
@@ -10,8 +10,7 @@ import { LucideAngularModule, PawPrint } from 'lucide-angular';
 })
 export class ImagePlaceholderComponent {
  
-  @Input() icon = PawPrint;
-  @Input() label?: string;
-  @Input() size = 40;
+  @Input() icon: LucideIconData = PawPrint;
+  @Input() size: number = 40;
 
 }
