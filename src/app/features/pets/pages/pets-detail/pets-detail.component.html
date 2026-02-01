@@ -1,15 +1,15 @@
 @if (petsFacade.pet$ | async; as pet) {
   <app-detail-container 
-    backLink="/shell/pets"
-    listDetailRoutePrefix="/shell/tutors/details"
     listSubtitleProperty="telefone"
     listTitle="Tutores Vinculados"
-    [editLink]="['/shell/pets/edit', pet.id]"
     [imageUrl]="pet.foto?.url"
-    [listItems]="pet.tutores"
+    [listItems]="pet.tutores!"
     [listIcon]="Users"
     [listItemImagePlaceholder]="User"
-    [title]="pet.nome">
+    [title]="pet.nome"
+    (back)="onBack()"
+    (edit)="onEdit()"
+    (itemClick)="onItemClick($event)">
     
     <div content> 
       <div class="grid grid-cols-2 gap-3 md:gap-4">

@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { LucideAngularModule, Phone, User, Users } from 'lucide-angular';
 import { PetsFacade } from '../../facades/pets.facade';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ShellFacade } from '../../../../core/facades/shell.facade';
 import { DetailContainerComponent } from '../../../../shared/components/detail-container/detail-container.component';
@@ -22,6 +22,7 @@ export class PetsDetailComponent implements OnInit, OnDestroy {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly shellFacade = inject(ShellFacade);
+  private readonly router = inject(Router);
 
   protected readonly Phone = Phone;
   protected readonly User = User;
@@ -36,6 +37,18 @@ export class PetsDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.petsFacade.clearPet();
+  }
+
+  protected onBack(): void {
+    this.router.navigateByUrl('/shell/pets');
+  }
+
+  protected onEdit(): void {
+    this.router.navigateByUrl(`/shell/pets/edit/${this.id}`);
+  }
+
+  protected onItemClick(id: number): void {
+    this.router.navigateByUrl(`/shell/tutors/details/${id}`);
   }
 
   private initRouteListener(): void {
