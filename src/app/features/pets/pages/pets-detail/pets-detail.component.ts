@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, Location } from '@angular/common';
 import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { LucideAngularModule, Phone, User, Users } from 'lucide-angular';
 import { PetsFacade } from '../../facades/pets.facade';
@@ -22,6 +22,7 @@ export class PetsDetailComponent implements OnInit, OnDestroy {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly shellFacade = inject(ShellFacade);
+  private readonly location = inject(Location);
   private readonly router = inject(Router);
 
   protected readonly Phone = Phone;
@@ -40,7 +41,7 @@ export class PetsDetailComponent implements OnInit, OnDestroy {
   }
 
   protected onBack(): void {
-    this.router.navigateByUrl('/shell/pets');
+    this.location.back();
   }
 
   protected onEdit(): void {

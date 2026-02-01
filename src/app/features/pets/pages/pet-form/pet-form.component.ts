@@ -8,17 +8,17 @@ import { PetsFacade } from '../../facades/pets.facade';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs';
 import { Pet } from '../../models/pet.model';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../../../../shared/components/dialog/services/dialog.service';
 import { DialogData } from '../../../../shared/components/dialog/models/dialog-data.model';
 import { UploadComponent } from '../../../../shared/components/upload/upload.component';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, Location } from '@angular/common';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-pet-form',
   standalone: true,
-  imports: [AsyncPipe, ButtonComponent, InputComponent, LucideAngularModule, ReactiveFormsModule, RouterLink, UploadComponent],
+  imports: [AsyncPipe, ButtonComponent, InputComponent, LucideAngularModule, ReactiveFormsModule, UploadComponent],
   templateUrl: './pet-form.component.html',
   styleUrl: './pet-form.component.scss'
 })
@@ -27,9 +27,8 @@ export class PetFormComponent implements OnInit, OnDestroy {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly formBuilder = inject(FormBuilder);
-
+  private readonly location = inject(Location);
   private readonly dialogService = inject(DialogService);
-
   private readonly shellFacade = inject(ShellFacade);
   protected readonly petsFacade = inject(PetsFacade);
 
@@ -58,8 +57,11 @@ export class PetFormComponent implements OnInit, OnDestroy {
     this.petsFacade.clearPet();
   }
 
-  protected onDelete(): void {
+  protected onBack(): void {
+    this.location.back();
+  }
 
+  protected onDelete(): void {
     const dialogData: DialogData = {  
       title: 'Excluir Pet',
       message: `Tem certeza que deseja remover ${this.petForm.get('nome')?.value}? Essa ação não pode ser desfeita.`,
