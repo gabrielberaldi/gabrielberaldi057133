@@ -3,7 +3,7 @@ import { DetailContainerComponent } from '../../../../shared/components/detail-c
 import { InfoCardComponent } from '../../../../shared/components/info-card/info-card.component';
 import { LucideAngularModule, PawPrint, User,} from 'lucide-angular';
 import { TutorsFacade } from '../../facades/tutors.facade';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ShellFacade } from '../../../../core/facades/shell.facade';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AsyncPipe } from '@angular/common';
@@ -22,6 +22,7 @@ export class TutorsDetailComponent implements OnInit, OnDestroy {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly shellFacade = inject(ShellFacade);
+  private readonly router = inject(Router);
 
   protected readonly PawPrint = PawPrint;
   protected readonly User = User;
@@ -37,6 +38,18 @@ export class TutorsDetailComponent implements OnInit, OnDestroy {
     this.tutorsFacade.clearTutor();
   }
 
+  protected onBack(): void {
+    this.router.navigateByUrl('/shell/tutors');
+  }
+
+  protected onEdit(): void {
+    this.router.navigateByUrl(`/shell/tutors/edit/${this.id}`);
+  }
+
+  protected onItemClick(id: number): void {
+    this.router.navigateByUrl(`/shell/pets/details/${id}`);
+  }
+
   private initRouteListener(): void {
     this.activatedRoute.paramMap
       .pipe(
@@ -47,7 +60,7 @@ export class TutorsDetailComponent implements OnInit, OnDestroy {
           if (tutor) {
             this.shellFacade.setBreadCrumbs({ 
               breadcrumbs: [
-                { label: 'tutors', link: '/shell/tutors' },
+                { label: 'Tutores', link: '/shell/tutors' },
                 { label: 'Detalhes' }, 
                 { label: tutor.nome } 
               ] 
