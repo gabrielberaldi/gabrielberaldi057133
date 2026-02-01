@@ -140,7 +140,7 @@ export class TutorsFacade {
         this.toastService.show({ message: `Tutor ${tutorRequest.id? 'atualizado' : 'cadastrado'} com sucesso`, type: 'success' });
         const currentTutor = this._tutor$.getValue();
         this._tutor$.next({ ...currentTutor, ...savedTutor });
-        if (!tutorRequest.id) this.router.navigate([`/shell/tutors/edit/${savedTutor.id}`])
+        if (!tutorRequest.id) this.router.navigate([`/shell/tutors/edit/${savedTutor.id}`], { replaceUrl: true })
       }),
       finalize(() => this._loading$.next(false))
     )

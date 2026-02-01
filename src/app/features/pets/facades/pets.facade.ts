@@ -113,7 +113,7 @@ export class PetsFacade {
         this.toastService.show({ message: `Pet ${petRequest.id? 'atualizado' : 'cadastrado'} com sucesso`, type: 'success' });
         const currentPet = this._pet$.getValue();
         this._pet$.next({ ...currentPet, ...savedPet });
-        if (!petRequest.id) this.router.navigate([`/shell/pets/edit/${savedPet.id}`])
+        if (!petRequest.id) this.router.navigate([`/shell/pets/edit/${savedPet.id}`], { replaceUrl: true })
       }),
       finalize(() => this._loading$.next(false))
     )

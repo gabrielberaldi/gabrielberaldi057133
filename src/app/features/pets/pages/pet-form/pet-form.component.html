@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <form class="flex flex-col gap-4 space-y-6" [formGroup]="petForm" (ngSubmit)="onSave()" >
+      <form class="flex flex-col gap-5" [formGroup]="petForm" (ngSubmit)="onSave()" >
 
         <app-upload 
           [currentPhotoUrl]="(petsFacade.pet$ | async)?.foto?.url"
@@ -31,7 +31,7 @@
           <app-input formControlName="raca" label="Raça" placeholder="Ex: Labrador" type="text"></app-input>
         </div>
 
-        <div class="flex flex-row items-center justify-center gap-3 pt-6 border-t border-base-200">
+        <div class="flex flex-row items-center justify-end gap-3 pt-6 border-t border-base-200">
           <app-button variant="btn-outline" [icon]="ArrowLeft" [iconSize]="20" (click)="onBack()">Voltar</app-button>
           @if (!!petId) {
             <app-button variant="btn-error" [icon]="Trash2" [iconSize]="20" (action)="onDelete()">Excluir</app-button>
