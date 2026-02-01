@@ -6,7 +6,7 @@ import { TutorsFacade } from '../../facades/tutors.facade';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShellFacade } from '../../../../core/facades/shell.facade';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, Location } from '@angular/common';
 import { filter, map, switchMap, tap } from 'rxjs';
 
 @Component({
@@ -22,6 +22,7 @@ export class TutorsDetailComponent implements OnInit, OnDestroy {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly shellFacade = inject(ShellFacade);
+  private readonly location = inject(Location);
   private readonly router = inject(Router);
 
   protected readonly PawPrint = PawPrint;
@@ -39,7 +40,7 @@ export class TutorsDetailComponent implements OnInit, OnDestroy {
   }
 
   protected onBack(): void {
-    this.router.navigateByUrl('/shell/tutors');
+    this.location.back();
   }
 
   protected onEdit(): void {

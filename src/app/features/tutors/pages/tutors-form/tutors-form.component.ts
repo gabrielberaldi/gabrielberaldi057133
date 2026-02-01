@@ -1,8 +1,8 @@
 import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '../../../../shared/components/dialog/services/dialog.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ArrowLeft, Info, Link, LucideAngularModule, Save, Search, SearchIcon, Trash2, UserRound } from 'lucide-angular';
+import { ActivatedRoute } from '@angular/router';
+import { ArrowLeft, LucideAngularModule, Save, SearchIcon, Trash2, UserRound } from 'lucide-angular';
 import { TutorsFacade } from '../../facades/tutors.facade';
 import { ShellFacade } from '../../../../core/facades/shell.facade';
 import { InputComponent } from '../../../../shared/components/input/input.component';
@@ -13,7 +13,7 @@ import { debounceTime, distinctUntilChanged, filter, startWith, switchMap } from
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Tutor } from '../../models/tutor.model';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, Location } from '@angular/common';
 import { PetsFacade } from '../../../pets/facades/pets.facade';
 import { TutorPetsListComponent } from '../../components/tutor-pets-list/tutor-pets-list.component';
 import { ModalComponent } from '../../../../shared/components/modal/modal.component';
@@ -28,7 +28,6 @@ import { TutorPetSelectComponent } from '../../components/tutor-pet-select/tutor
     LucideAngularModule, 
     ModalComponent, 
     ReactiveFormsModule, 
-    RouterLink,
     UploadComponent, 
     TutorPetsListComponent, 
     TutorPetSelectComponent
@@ -41,9 +40,8 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private readonly formBuilder = inject(FormBuilder);
-
+  private readonly location = inject(Location);
   private readonly dialogService = inject(DialogService);
-
   protected readonly petsFacade = inject(PetsFacade);
   protected readonly tutorsFacade = inject(TutorsFacade);
   private readonly shellFacade = inject(ShellFacade);
@@ -75,6 +73,10 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.tutorsFacade.clearTutor();
+  }
+
+  protected onBack(): void {
+    this.location.back();
   }
 
   protected onDelete(): void {
