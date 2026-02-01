@@ -1,7 +1,7 @@
 <div class="max-w-5xl mx-auto p-4 md:p-8">
   <div class="flex items-center justify-between mb-6 md:mb-8">
-    <app-button variant="btn-outline" [icon]="ArrowLeft" (click)="onBack()">Voltar</app-button>
-    <app-button variant="btn-neutral" [icon]="Pencil" (click)="onEdit()">Editar</app-button>
+    <app-button variant="btn-outline" [icon]="ArrowLeft" (action)="onBack()">Voltar</app-button>
+    <app-button variant="btn-neutral" [icon]="Pencil" (action)="onEdit()">Editar</app-button>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">

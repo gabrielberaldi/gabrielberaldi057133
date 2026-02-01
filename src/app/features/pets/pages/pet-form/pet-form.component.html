@@ -32,7 +32,7 @@
         </div>
 
         <div class="flex flex-row items-center justify-end gap-3 pt-6 border-t border-base-200">
-          <app-button variant="btn-outline" [icon]="ArrowLeft" [iconSize]="20" (click)="onBack()">Voltar</app-button>
+          <app-button variant="btn-outline" [icon]="ArrowLeft" [iconSize]="20" (action)="onBack()">Voltar</app-button>
           @if (!!petId) {
             <app-button variant="btn-error" [icon]="Trash2" [iconSize]="20" (action)="onDelete()">Excluir</app-button>
           }
