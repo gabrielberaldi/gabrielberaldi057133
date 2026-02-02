@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '../../../../shared/components/dialog/services/dialog.service';
 import { ActivatedRoute } from '@angular/router';
-import { ArrowLeft, LucideAngularModule, Save, SearchIcon, Trash2, UserRound } from 'lucide-angular';
+import { LucideAngularModule, SearchIcon, UserRound } from 'lucide-angular';
 import { TutorsFacade } from '../../facades/tutors.facade';
 import { ShellFacade } from '../../../../core/facades/shell.facade';
 import { InputComponent } from '../../../../shared/components/input/input.component';
@@ -66,7 +66,6 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
   protected pendingPhoto: File | null = null;
 
   ngOnInit(): void {
-    this.tutorId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.initTutorStateListener();
     this.listenToSearchControl();
     this.initRouteListener();
@@ -143,7 +142,6 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
   
   protected openLinkModal(): void {
     this.isModalOpen = true;
-    this.petsFacade.search(''); 
   }
 
   protected onConfirmLink(petId: number): void {
@@ -177,9 +175,9 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(params => {
-        const id = params.get('id');
-        if (id) {
-          this.tutorsFacade.loadTutor(Number(id)).subscribe();
+        this.tutorId = Number(params.get('id'));
+        if (this.tutorId) {
+          this.tutorsFacade.loadTutor(this.tutorId).subscribe();
         } else {
           this.tutorsFacade.clearTutor();
           this.setBreadcrumbs();

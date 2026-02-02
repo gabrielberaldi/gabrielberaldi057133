@@ -47,7 +47,6 @@ export class PetFormComponent implements OnInit, OnDestroy {
   protected pendingPhoto: File | null = null;
 
   ngOnInit(): void {
-    this.petId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.initPetStateListener();
     this.initRouteListener();
   }
@@ -123,9 +122,9 @@ export class PetFormComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(params => {
-        const id = params.get('id');
-        if (id) {
-          this.petsFacade.loadPet(Number(id)).subscribe();
+        this.petId = Number(params.get('id'));
+        if (this.petId) {
+          this.petsFacade.loadPet(this.petId).subscribe();
         } else {
           this.petsFacade.clearPet();
           this.setBreadcrumbs();
