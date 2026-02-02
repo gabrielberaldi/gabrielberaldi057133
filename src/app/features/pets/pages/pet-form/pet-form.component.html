@@ -1,44 +1,24 @@
 <div class="max-w-2xl mx-auto space-y-6">
   <div class="card bg-base-100 shadow-sm border border-base-200">
     <div class="card-body p-8">
-
-      <div class="flex items-center gap-3 mb-6">
-        <div class="p-3 bg-primary/10 text-primary rounded-xl">
-          <lucide-angular [img]="PawPrint" size="24"></lucide-angular>
-        </div>
-        <div>
-          <h2 class="card-title text-2xl font-bold">
-            Dados do pet
-          </h2>
-          <p class="text-sm text-base-content/50">
-            Identificação
-          </p>
-        </div>
-      </div>
-
+      <app-form-header title="Dados do pet" description="Identificação" [icon]="PawPrint" />
       <form class="flex flex-col gap-5" [formGroup]="petForm" (ngSubmit)="onSave()" >
-
         <app-upload 
           [currentPhotoUrl]="(petsFacade.pet$ | async)?.foto?.url"
           [isUploading]="petsFacade.loading$ | async"
           (fileChange)="onFileChange($event)"
           (removeRequest)="onRemoveRequest()">
         </app-upload>
-
         <div class="flex flex-col gap-2.5">
           <app-input formControlName="nome" label="Nome do Pet" placeholder="Ex: Rex" type="text"></app-input>
           <app-input formControlName="idade" label="Idade (Anos)" type="number" placeholder="0"></app-input>
           <app-input formControlName="raca" label="Raça" placeholder="Ex: Labrador" type="text"></app-input>
         </div>
-
-        <div class="flex flex-row items-center justify-end gap-3 pt-6 border-t border-base-200">
-          <app-button variant="btn-outline" [icon]="ArrowLeft" [iconSize]="20" (action)="onBack()">Voltar</app-button>
-          @if (!!petId) {
-            <app-button variant="btn-error" [icon]="Trash2" [iconSize]="20" (action)="onDelete()">Excluir</app-button>
-          }
-          <app-button type="submit" [disabled]="petForm.invalid" [icon]="Save" [iconSize]="20">Salvar</app-button>
-        </div>
-
+        <app-form-actions 
+          [isEdit]="!!petId" 
+          [isInvalid]="petForm.invalid" 
+          (back)="onBack()"
+          (delete)="onDelete()" />
       </form>
     </div>
   </div>

@@ -14,11 +14,13 @@ import { DialogData } from '../../../../shared/components/dialog/models/dialog-d
 import { UploadComponent } from '../../../../shared/components/upload/upload.component';
 import { AsyncPipe, Location } from '@angular/common';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { FormHeaderComponent } from '../../../../shared/components/form/form-header/form-header.component';
+import { FormActionsComponent } from '../../../../shared/components/form/form-actions/form-actions.component';
 
 @Component({
   selector: 'app-pet-form',
   standalone: true,
-  imports: [AsyncPipe, ButtonComponent, InputComponent, LucideAngularModule, ReactiveFormsModule, UploadComponent],
+  imports: [AsyncPipe, ButtonComponent, FormHeaderComponent, FormActionsComponent, InputComponent, LucideAngularModule, ReactiveFormsModule, UploadComponent],
   templateUrl: './pet-form.component.html',
   styleUrl: './pet-form.component.scss'
 })
@@ -32,10 +34,7 @@ export class PetFormComponent implements OnInit, OnDestroy {
   private readonly shellFacade = inject(ShellFacade);
   protected readonly petsFacade = inject(PetsFacade);
 
-  protected readonly ArrowLeft = ArrowLeft;
   protected readonly PawPrint = PawPrint;
-  protected readonly Trash2 = Trash2;
-  protected readonly Save = Save;
 
   protected readonly petForm = this.formBuilder.nonNullable.group({
     id: [null as number | null],

@@ -18,12 +18,16 @@ import { PetsFacade } from '../../../pets/facades/pets.facade';
 import { TutorPetsListComponent } from '../../components/tutor-pets-list/tutor-pets-list.component';
 import { ModalComponent } from '../../../../shared/components/modal/modal.component';
 import { TutorPetSelectComponent } from '../../components/tutor-pet-select/tutor-pet-select.component';
+import { FormActionsComponent } from '../../../../shared/components/form/form-actions/form-actions.component';
+import { FormHeaderComponent } from '../../../../shared/components/form/form-header/form-header.component';
 
 @Component({
   selector: 'app-tutors-form',
   standalone: true,
   imports: [AsyncPipe, 
-    ButtonComponent, 
+    ButtonComponent,
+    FormActionsComponent,
+    FormHeaderComponent, 
     InputComponent, 
     LucideAngularModule, 
     ModalComponent, 
@@ -46,9 +50,6 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
   protected readonly tutorsFacade = inject(TutorsFacade);
   private readonly shellFacade = inject(ShellFacade);
 
-  protected readonly ArrowLeft = ArrowLeft;
-  protected readonly Save = Save;
-  protected readonly Trash2 = Trash2;
   protected readonly UserRound = UserRound;
   protected readonly SearchIcon = SearchIcon
   
