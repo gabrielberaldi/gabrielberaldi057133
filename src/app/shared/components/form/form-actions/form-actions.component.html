@@ -1,0 +1,27 @@
+<div class="flex flex-row items-center justify-end gap-3 pt-6 mt-6 border-t border-base-200">
+  <app-button 
+    variant="btn-outline" 
+    [icon]="ArrowLeft" 
+    (action)="onBack()">
+    Voltar
+  </app-button>
+
+  <div class="flex-1"></div>
+
+  @if (isEdit) {
+    <app-button 
+      variant="btn-error" 
+      [icon]="Trash2" 
+      (action)="onDelete()">
+      Excluir
+    </app-button>
+  }
+
+  <app-button 
+    type="submit" 
+    variant="btn-primary"
+    [disabled]="isInvalid" 
+    [icon]="Save">
+    Salvar
+  </app-button>
+</div>
