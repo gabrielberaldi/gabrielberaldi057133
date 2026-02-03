@@ -38,8 +38,8 @@ export class PetFormComponent implements OnInit, OnDestroy {
 
   protected readonly petForm = this.formBuilder.nonNullable.group({
     id: [null as number | null],
-    nome: ['', Validators.required],
-    raca: ['', Validators.required],
+    nome: ['', [Validators.required, Validators.maxLength(100)]],
+    raca: ['', [Validators.required, Validators.maxLength(100)]],
     idade: [0, [Validators.required, Validators.min(0)]]
   });
 

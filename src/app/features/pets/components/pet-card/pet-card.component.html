@@ -5,9 +5,13 @@
   (detail)="onDetail()">
 
   <div info class="space-y-2">
-    <div class="flex items-center gap-2 text-sm">
-      <span class="text-base-content/60 font-medium">Raça:</span>
-      <span class="badge badge-outline badge-sm text-primary font-semibold uppercase">{{ pet.raca }}</span>
+    <div class="flex items-center gap-2 text-sm min-w-0">
+       <span class="text-base-content/60 font-medium shrink-0">
+        Raça:
+      </span>
+      <span class="badge badge-outline badge-sm text-primary font-semibold uppercase truncate block" [title]="pet.raca">
+        {{ pet.raca }}
+      </span>
     </div>
     <div class="flex items-center gap-2 text-sm">
       <span class="text-base-content/60 font-medium">Idade:</span>
