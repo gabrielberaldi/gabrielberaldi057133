@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TutorPetsListComponent } from './tutor-pets-list.component';
 
 describe('TutorPetsListComponent', () => {
@@ -14,6 +13,8 @@ describe('TutorPetsListComponent', () => {
 
     fixture = TestBed.createComponent(TutorPetsListComponent);
     component = fixture.componentInstance;
+    component.tutorId = 1;
+    component.pets = [];
     fixture.detectChanges();
   });
 

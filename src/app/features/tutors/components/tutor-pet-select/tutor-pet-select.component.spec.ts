@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TutorPetSelectComponent } from './tutor-pet-select.component';
 
 describe('TutorPetSelectComponent', () => {
@@ -8,12 +8,14 @@ describe('TutorPetSelectComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TutorPetSelectComponent]
+      imports: [TutorPetSelectComponent, ReactiveFormsModule]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(TutorPetSelectComponent);
     component = fixture.componentInstance;
+    component.pets = [];
+    component.searchControl = new FormControl('');
     fixture.detectChanges();
   });
 
