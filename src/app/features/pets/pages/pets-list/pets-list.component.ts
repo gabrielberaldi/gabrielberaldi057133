@@ -6,7 +6,6 @@ import { debounceTime, distinctUntilChanged, startWith } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InputComponent } from '../../../../shared/components/input/input.component';
 import { LucideAngularModule, PlusIcon, SearchIcon } from 'lucide-angular';
-import { CardSkeletonComponent } from '../../../../shared/components/card-skeleton/card-skeleton.component';
 import { PaginatorComponent } from '../../../../shared/components/paginator/paginator.component';
 import { ShellFacade } from '../../../../core/facades/shell.facade';
 import { BreadcrumbConfig } from '../../../../core/models/breadcrumb-config.model';
@@ -16,7 +15,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-pets-list',
   standalone: true,
-  imports: [AsyncPipe, CardSkeletonComponent, InputComponent, LucideAngularModule, PetCardComponent, PaginatorComponent, ReactiveFormsModule],
+  imports: [AsyncPipe, InputComponent, LucideAngularModule, PetCardComponent, PaginatorComponent, ReactiveFormsModule],
   templateUrl: './pets-list.component.html',
   styleUrl: './pets-list.component.scss'
 })
