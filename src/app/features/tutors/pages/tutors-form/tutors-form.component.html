@@ -18,7 +18,7 @@
             </div>
             <app-form-actions 
               [isEdit]="!!tutorId"
-              [isInvalid]="tutorForm.invalid"
+              [isInvalid]="tutorForm.invalid || (tutorsFacade.loading$ | async) || false"
               (back)="onBack()"
               (delete)="onDelete()"/>
           </form>

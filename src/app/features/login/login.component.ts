@@ -3,18 +3,20 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputComponent } from '../../shared/components/input/input.component';
 import { AuthFacade } from '../../core/auth/facades/auth.facade';
 import { ButtonComponent } from '../../shared/components/button/button.component';
+import { LucideAngularModule, PawPrint } from 'lucide-angular';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ ButtonComponent, ReactiveFormsModule, InputComponent ],
+  imports: [ AsyncPipe, ButtonComponent, ReactiveFormsModule, InputComponent, LucideAngularModule ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
   
-  private readonly authFacade = inject(AuthFacade);
+  protected readonly authFacade = inject(AuthFacade);
   private readonly formBuilder = inject(FormBuilder);
   
   protected loginForm = this.formBuilder.nonNullable.group({
@@ -22,7 +24,9 @@ export class LoginComponent {
     password: ['', Validators.required]
   });
 
-  onSubmit(): void { 
+  protected PawPrint = PawPrint;
+
+  protected onSubmit(): void { 
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;

@@ -16,7 +16,7 @@
         </div>
         <app-form-actions 
           [isEdit]="!!petId" 
-          [isInvalid]="petForm.invalid" 
+          [isInvalid]="petForm.invalid || (petsFacade.loading$ | async) || false" 
           (back)="onBack()"
           (delete)="onDelete()" />
       </form>

@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 import { UserCredentials } from "../models/user-credentials.model";
-import { BehaviorSubject, map, Observable, tap, throwError } from "rxjs";
+import { BehaviorSubject, finalize, map, Observable, tap, throwError } from "rxjs";
 import { AuthResponse } from "../models/auth-response.model";
 import { Router } from "@angular/router";
 import { ToastService } from "../../../shared/components/toast/services/toast.service";
@@ -15,8 +15,10 @@ export class AuthFacade {
   
   private readonly authKey = 'auth_data';
   private readonly authDataSubject$ = new BehaviorSubject<AuthResponse | null>(this.loadFromStorage());
+  private readonly _loading$ = new BehaviorSubject<boolean>(false);
 
-  readonly isAuthenticated$ = this.authDataSubject$.pipe(map(data => !!data?.access_token)); 
+  readonly isAuthenticated$ = this.authDataSubject$.pipe(map(data => !!data?.access_token));
+  readonly loading$ = this._loading$.asObservable();
   
   get accessToken(): string | null {
     const authData = this.authDataSubject$.getValue();
@@ -24,12 +26,14 @@ export class AuthFacade {
   }
 
   login(userCredentials: UserCredentials): Observable<AuthResponse> {
+    this._loading$.next(true);
     return this.authService.login(userCredentials).pipe(
       tap(response => {
         this.toastService.show({ message: 'Login realizado com sucesso', type: 'success' });
         this.updateSession(response);
         this.router.navigate(['/shell']);
-      })
+      }),
+      finalize(() => this._loading$.next(false))
     )
   }
 

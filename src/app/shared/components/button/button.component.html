@@ -1,7 +1,7 @@
 <button 
   [class]="variantClasses + ' ' + customClass" 
   [disabled]="disabled || loading" 
-  [ngClass]="{ 'btn-sm md:btn-md': responsive, 'loading': loading }"
+  [ngClass]="{ 'btn-sm md:btn-md': responsive }"
   [type]="type" 
   (click)="onClick($event)">
   @if (icon && !loading) {
