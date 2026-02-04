@@ -1,30 +1,12 @@
-<div class="flex flex-col gap-5">
-  <app-input 
-    placeholder="Buscar pelo nome do tutor" 
-    type="text" 
-    [formControl]="searchControl" 
-    [icon]="SearchIcon" />
+<app-card-list 
+  foundLabel="tutores"
+  placeholder="Buscar pelo nome do tutor"
+  [cardTemplate]="template"
+  [list]="(tutorsFacade.tutorsList$ | async) || { content: [], total: 0, page: 0, pageCount: 0, size: 0 }"
+  (pageChange)="onPageChange($event)"
+  (search)="onSearch($event)">
+</app-card-list>
 
-    @if (tutorsFacade.tutorsList$ | async; as list) {
-      <div class="grid xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        @for (tutor of list.content; track tutor.id) {
-          <div>
-            <app-tutor-card [tutor]="tutor" (viewDetails)="onViewDetails($event)"></app-tutor-card>
-          </div>
-        } @empty {
-          <div class="col-span-full flex flex-col items-center justify-center py-16 bg-base-200/50">
-            <lucide-icon class="w-12 h-12 text-base-content/30 mb-3" [img]="SearchIcon"></lucide-icon>
-            <p class="text-lg font-medium text-base-content">Nenhum resultado encontrado</p>
-          </div>
-        }
-      </div>
-      <app-paginator
-        class="self-center"
-        foundItensLabel="tutores"
-        [currentPage]="list.page"
-        [totalElements]="list.total"
-        [totalPages]="list.pageCount"
-        (pageChange)="onPageChange($event)"> 
-      </app-paginator>
-    }
-</div>
+<ng-template let-item #template>
+  <app-tutor-card [tutor]="item" (viewDetails)="onViewDetails($event)"></app-tutor-card>
+</ng-template>
