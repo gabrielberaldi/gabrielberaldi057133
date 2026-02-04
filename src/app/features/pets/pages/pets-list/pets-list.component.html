@@ -11,6 +11,11 @@
           <div>
             <app-pet-card [pet]="pet" (viewDetails)="onViewDetails($event)"></app-pet-card>
           </div>
+        } @empty {
+          <div class="col-span-full flex flex-col items-center justify-center py-16 bg-base-200/50">
+            <lucide-icon class="w-12 h-12 text-base-content/30 mb-3" [img]="SearchIcon"></lucide-icon>
+            <p class="text-lg font-medium text-base-content">Nenhum resultado encontrado</p>
+          </div>
         }
       </div>
       <app-paginator
