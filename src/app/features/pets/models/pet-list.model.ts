@@ -1,9 +1,4 @@
+import { CardList } from "../../../shared/components/card-list/models/list.model";
 import { Pet } from "./pet.model";
 
-export interface PetList {
-  page: number;
-  size: number;
-  total: number;
-  pageCount: number;
-  content: Pet[];
-}
+export interface PetList extends CardList<Pet> {}
