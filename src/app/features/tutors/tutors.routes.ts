@@ -1,25 +1,25 @@
-import { Route } from "@angular/router";
-import { TutorsListComponent } from "./pages/tutors-list/tutors-list.component";
-import { TutorsDetailComponent } from "./pages/tutors-detail/tutors-detail.component";
-import { TutorsFormComponent } from "./pages/tutors-form/tutors-form.component";
+import { Routes } from '@angular/router';
 
-
-export const TUTORS_ROUTE: Route[] = [
+export const TUTORS_ROUTE: Routes = [
   {
     path: 'list',
-    component: TutorsListComponent,
+    loadComponent: () => 
+      import('./pages/tutors-list/tutors-list.component').then(m => m.TutorsListComponent),
   },
   {
     path: 'details/:id',
-    component: TutorsDetailComponent,
+    loadComponent: () => 
+      import('./pages/tutors-detail/tutors-detail.component').then(m => m.TutorsDetailComponent),
   },
   {
     path: 'new',
-    component: TutorsFormComponent,
+    loadComponent: () => 
+      import('./pages/tutors-form/tutors-form.component').then(m => m.TutorsFormComponent),
   },
   {
     path: 'edit/:id',
-    component: TutorsFormComponent,
+    loadComponent: () => 
+      import('./pages/tutors-form/tutors-form.component').then(m => m.TutorsFormComponent),
   },
   {
     path: '',

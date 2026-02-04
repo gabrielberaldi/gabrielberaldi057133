@@ -1,24 +1,25 @@
-import { Route } from "@angular/router";
-import { PetsListComponent } from "./pages/pets-list/pets-list.component";
-import { PetsDetailComponent } from "./pages/pets-detail/pets-detail.component";
-import { PetFormComponent } from "./pages/pet-form/pet-form.component";
+import { Routes } from "@angular/router";
 
-export const PET_ROUTES: Route[] = [
+export const PET_ROUTES: Routes = [
   {
     path: 'list',
-    component: PetsListComponent,
+    loadComponent: () => 
+      import('./pages/pets-list/pets-list.component').then(m => m.PetsListComponent),
   },
   {
     path: 'details/:id',
-    component: PetsDetailComponent,
+    loadComponent: () => 
+      import('./pages/pets-detail/pets-detail.component').then(m => m.PetsDetailComponent),
   },
   {
     path: 'new',
-    component: PetFormComponent,
+    loadComponent: () => 
+      import('./pages/pet-form/pet-form.component').then(m => m.PetFormComponent),
   },
   {
     path: 'edit/:id',
-    component: PetFormComponent,
+    loadComponent: () => 
+      import('./pages/pet-form/pet-form.component').then(m => m.PetFormComponent),
   },
   {
     path: '',
