@@ -1,0 +1,29 @@
+<div class="flex flex-col gap-5">
+  <app-input 
+    type="text" 
+    [placeholder]="placeholder" 
+    [formControl]="searchControl" 
+    [icon]="SearchIcon" />
+
+  <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    @for (item of list.content; track item.id) {
+      <ng-container *ngTemplateOutlet="cardTemplate; context: { $implicit: item }"></ng-container>
+    } @empty {
+      <div class="col-span-full flex flex-col items-center justify-center py-16 bg-base-200/50 rounded-xl">
+        <lucide-icon class="w-12 h-12 text-base-content/30 mb-3" [img]="SearchIcon"></lucide-icon>
+        <p class="text-lg font-medium text-base-content">Nenhum resultado encontrado</p>
+      </div>
+    }
+  </div>
+
+  @if (list.total > 0) {
+    <app-paginator
+      class="self-center"
+      [foundItensLabel]="foundLabel"
+      [currentPage]="list.page"
+      [totalElements]="list.total"
+      [totalPages]="list.pageCount"
+      (pageChange)="onPageChanged($event)">
+    </app-paginator>
+  }
+</div>
