@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BreadcrumbComponent } from './breadcrumb.component';
-import { BreadcrumbConfig } from '../../../models/breadcrumb-config.model';
 
 describe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
@@ -14,7 +13,6 @@ describe('BreadcrumbComponent', () => {
 
     fixture = TestBed.createComponent(BreadcrumbComponent);
     component = fixture.componentInstance;
-    component.config = { breadcrumbs: [] };
     fixture.detectChanges();
   });
 
