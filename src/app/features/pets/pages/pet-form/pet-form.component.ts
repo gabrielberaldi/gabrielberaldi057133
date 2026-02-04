@@ -147,7 +147,7 @@ export class PetFormComponent implements OnInit, OnDestroy {
   }
 
   private setBreadcrumbs(petName?: string): void {
-    const config: BreadcrumbConfig = { breadcrumbs: [{ label: 'Pets' }, { label: petName ?? 'Cadastro' }]  };
+    const config: BreadcrumbConfig = { breadcrumbs: [{ label: 'Pets', link: '/shell/pets' }, { label: petName ?? 'Cadastro' }]  };
     this.shellFacade.setBreadCrumbs(config);
   }
 

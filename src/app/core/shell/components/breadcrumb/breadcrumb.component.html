@@ -1,39 +1,31 @@
 <nav class="w-full bg-base-100 px-6 py-6 border-b border-base-200 shadow-sm">
-  <div class="flex items-center justify-between gap-4">
-    
-    <div class="breadcrumbs text-sm overflow-x-auto whitespace-nowrap">
-      <ul class="flex items-center">
-        @for (item of config.breadcrumbs; track item.label; let last = $last; let first = $first) {
-          <li class="flex items-center">
-            @if (item.link && !last) {
-              <a class="flex items-center gap-2 text-base-content/70 hover:text-primary transition-colors font-medium group" 
-                 [routerLink]="item.link">
-                @if (first) {
-                  <lucide-icon 
-                    class="group-hover:-translate-x-1 transition-transform"
-                    size="18" 
-                    [img]="ArrowLeftIcon">
-                  </lucide-icon> 
-                }
-                {{ item.label }}
-              </a>
-            } @else {
-              <span class="font-bold text-lg md:text-xl text-base-content flex items-center gap-2">
-                {{ item.label }}
-              </span>
+  @if (shellFacade.breadcrumbConfig$ | async; as config) {
+    <div class="flex items-center justify-between gap-4">
+      
+      <div class="flex flex-col gap-1">
+        <div class="breadcrumbs">
+          <ul class="flex items-center gap-2">
+            @for (item of config.breadcrumbs; track item.label) {
+              <li class="flex items-center gap-2">
+                <span 
+                  class="font-semibold text-base-content cursor-default no-underline"
+                  [ngClass]="{'cursor-pointer hover:text-primary hover:underline transition-all': item.link }"
+                  [routerLink]="item.link"
+                  [title]="item.link ? 'Clique para voltar' : ''">
+                  {{ item.label }}
+                </span>
+              </li>
             }
-          </li>
-        }
-      </ul>
-    </div>
-
-    @if (config.button) {
-      <div class="shrink-0">
-        <app-button [icon]="config.button.icon" [routerLink]="config.button.link">
-           {{ config.button.label }}
-        </app-button>
+          </ul>
+        </div>
       </div>
-    }
 
-  </div>
+      @if (config.button) {
+        <app-button [icon]="config.button.icon" [routerLink]="config.button.link">
+          {{ config.button.label }}
+        </app-button>
+      }
+
+    </div>
+  }
 </nav>

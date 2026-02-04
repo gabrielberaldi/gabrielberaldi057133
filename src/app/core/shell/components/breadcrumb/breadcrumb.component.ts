@@ -1,20 +1,20 @@
-import { Component, Input } from '@angular/core';
-import { BreadcrumbConfig } from '../../../models/breadcrumb-config.model';
+import { Component, inject, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ArrowLeftIcon, LucideAngularModule } from 'lucide-angular';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { ShellFacade } from '../../../facades/shell.facade';
+import { AsyncPipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-breadcrumb',
   standalone: true,
-  imports: [ButtonComponent, RouterLink, LucideAngularModule],
+  imports: [AsyncPipe, ButtonComponent, RouterLink, LucideAngularModule, NgClass],
   templateUrl: './breadcrumb.component.html',
   styleUrl: './breadcrumb.component.scss'
 })
 export class BreadcrumbComponent {
 
-  @Input({ required: true }) config!: BreadcrumbConfig;
-
+  protected readonly shellFacade = inject(ShellFacade);
   protected readonly ArrowLeftIcon = ArrowLeftIcon;
 
 }

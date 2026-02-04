@@ -200,7 +200,7 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
   }
 
   private setBreadcrumbs(tutorName?: string): void {
-    const config: BreadcrumbConfig = { breadcrumbs: [{ label: 'Tutores' }, { label: tutorName ?? 'Cadastro' }] };
+    const config: BreadcrumbConfig = { breadcrumbs: [{ label: 'Tutores', link: 'shell/tutors' }, { label: tutorName ?? 'Cadastro' }] };
     this.shellFacade.setBreadCrumbs(config);
   }
 

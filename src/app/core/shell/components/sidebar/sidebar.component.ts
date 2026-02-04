@@ -14,8 +14,6 @@ import { BreadcrumbConfig } from '../../../models/breadcrumb-config.model';
 })
 export class SidebarComponent {
 
-  @Input({ required: true, transform: (value: BreadcrumbConfig | undefined | null) => value ?? { breadcrumbs: [] } }) 
-  config!: BreadcrumbConfig;
   @Input({ required: true, transform: (value: boolean | null) => value ?? true }) 
   isSidebarOpen!: boolean;
   @Input({ required: true }) menuItems!: MenuItem[];
