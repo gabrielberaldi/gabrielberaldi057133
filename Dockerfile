@@ -12,9 +12,12 @@ COPY . .
 RUN npm run build --configuration=production
 
 FROM nginxinc/nginx-unprivileged:${NGINX_VERSION} AS runner
+
+USER root 
+RUN apk add --no-cache curl
+
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# COPY --chown=nginx:nginx --from=builder /app/dist/*/browser /usr/share/nginx/html
 COPY --chown=nginx:nginx --from=builder /app/dist/gabrielberaldi057133/browser /usr/share/nginx/html
 
 USER nginx
