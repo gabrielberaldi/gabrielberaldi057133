@@ -1,6 +1,28 @@
 <div class="card bg-base-100 shadow-xl border border-base-200 hover:border-primary/40 transition-all duration-300 group cursor-pointer h-full"
   (click)="onDetail()">
 
+  <div class="absolute top-2 right-2 z-20" (click)="$event.stopPropagation()">
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-circle btn-xs sm:btn-sm btn-ghost bg-base-100/60 backdrop-blur hover:bg-base-100 shadow-sm">
+        <lucide-icon [img]="EllipsisVertical" class="w-4 h-4"></lucide-icon>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-1 menu p-2 shadow-lg bg-base-100 rounded-box w-36 border border-base-200">
+        <li>
+          <a (click)="onEdit()">
+            <lucide-icon [img]="Pencil" class="w-4 h-4"></lucide-icon> 
+            Editar
+          </a>
+        </li>
+        <li>
+          <a (click)="onDelete()" class="text-error">
+            <lucide-icon [img]="Trash2" class="w-4 h-4"></lucide-icon> 
+            Excluir
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <figure class="aspect-video w-full overflow-hidden bg-base-200 relative">
     @if (imageUrl) {
       <img 

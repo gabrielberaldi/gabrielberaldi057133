@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ChevronRight, LucideAngularModule, LucideIconData, UserRound } from 'lucide-angular';
+import { ChevronRight, EllipsisVertical, LucideAngularModule, LucideIconData, Pencil, Plus, Trash2, UserRound } from 'lucide-angular';
 import { ImagePlaceholderComponent } from '../image-placeholder/image-placeholder.component';
 
 @Component({
@@ -14,12 +14,25 @@ export class ProfileCardComponent {
   @Input() imageUrl?: string | null;
   @Input() placeholderIcon: LucideIconData = UserRound;
   
+  @Output() edit = new EventEmitter<void>();
   @Output() detail = new EventEmitter<void>();
+  @Output() delete = new EventEmitter<void>();
 
   protected readonly ChevronRight = ChevronRight;
+  protected readonly EllipsisVertical = EllipsisVertical;
+  protected readonly Pencil = Pencil;
+  protected readonly Trash2 = Trash2;
 
-  protected onDetail(): void {
+  protected onEdit(): void {
+    this.edit.emit();
+  }
+
+   protected onDetail(): void {
     this.detail.emit();
+  }
+
+  protected onDelete(): void {
+    this.delete.emit();
   }
   
 }
