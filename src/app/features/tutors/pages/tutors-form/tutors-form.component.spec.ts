@@ -72,8 +72,15 @@ describe('TutorsFormComponent', () => {
             paramMap: paramMapSubject.asObservable(),
             snapshot: { paramMap: { get: (key: string) => paramMapSubject.value.get(key) } }
           }
-        }
+        },
       ]
+    })
+    .overrideComponent(TutorsFormComponent, {
+      set: { 
+        providers: [
+          { provide: PetsFacade, useValue: petsFacadeSpy }
+        ] 
+      }
     })
     .compileComponents();
 

@@ -8,6 +8,7 @@ import { TutorList } from '../../models/tutor-list.model';
 import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogService } from '../../../../shared/components/dialog/services/dialog.service';
+import { PetsFacade } from '../../../pets/facades/pets.facade';
 
 describe('TutorsListComponent', () => {
   let component: TutorsListComponent;
@@ -29,7 +30,7 @@ describe('TutorsListComponent', () => {
   beforeEach(async () => {
 
     dialogServiceSpy = jasmine.createSpyObj('DialogService', ['open']);
-    tutorsFacadeSpy = jasmine.createSpyObj('TutorsFacade', ['search', 'changePage', 'deleteTutor' ], { 
+    tutorsFacadeSpy = jasmine.createSpyObj('TutorsFacade', ['search', 'changePage', 'deleteTutor', 'refreshList' ], { 
       tutorsList$: of(MOCK_TUTOR_LIST),
       loading$: of(false)
     });
@@ -44,7 +45,7 @@ describe('TutorsListComponent', () => {
         { provide: DialogService, useValue: dialogServiceSpy },
         { provide: TutorsFacade, useValue: tutorsFacadeSpy },
         { provide: ShellFacade, useValue: shellFacadeSpy },
-        { provide: Router, useValue: routerSpy }
+        { provide: Router, useValue: routerSpy },
       ]
     })
     .compileComponents();

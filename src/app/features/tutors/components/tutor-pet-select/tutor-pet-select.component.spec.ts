@@ -14,7 +14,7 @@ describe('TutorPetSelectComponent', () => {
 
     fixture = TestBed.createComponent(TutorPetSelectComponent);
     component = fixture.componentInstance;
-    component.pets = [];
+    component.petsList = { content: [], page: 10, size: 10, pageCount: 5, total: 20 };
     component.searchControl = new FormControl('');
     fixture.detectChanges();
   });
@@ -22,4 +22,12 @@ describe('TutorPetSelectComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('shoud emit pageChange event', () => {
+    spyOn(component.pageChange, 'emit');
+    const page = 2;
+    component['onPageChanged'](page);
+    expect(component.pageChange.emit).toHaveBeenCalledWith(page);
+  })
+
 });

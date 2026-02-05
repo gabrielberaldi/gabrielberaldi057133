@@ -29,7 +29,7 @@ describe('PetsListComponent', () => {
 
   beforeEach(async () => {
     dialogServiceSpy = jasmine.createSpyObj('DialogService', ['open']);
-    petsFacadeSpy = jasmine.createSpyObj('PetsFacade', ['search', 'changePage', 'deletePet'], {
+    petsFacadeSpy = jasmine.createSpyObj('PetsFacade', ['search', 'changePage', 'deletePet', 'refreshList'], {
       petsList$: of(MOCK_PET_LIST),
       loading$: of(false)
     });
