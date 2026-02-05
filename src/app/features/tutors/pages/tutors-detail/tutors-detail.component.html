@@ -13,7 +13,7 @@
     
     <div content> 
       <div class="grid grid-cols-2 gap-3 md:gap-4">
-        <app-info-card label="Telefone" [value]="tutor.telefone"></app-info-card>
+        <app-info-card label="Telefone" [value]="tutor.telefone | phone"></app-info-card>
         <app-info-card label="Endereço" [value]="tutor.endereco"></app-info-card>
       </div>
     </div>

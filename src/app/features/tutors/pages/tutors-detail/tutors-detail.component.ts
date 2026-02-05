@@ -8,11 +8,12 @@ import { ShellFacade } from '../../../../core/facades/shell.facade';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AsyncPipe, Location } from '@angular/common';
 import { filter, map, switchMap, tap } from 'rxjs';
+import { PhonePipe } from '../../../../shared/pipes/phone.pipe';
 
 @Component({
   selector: 'app-tutors-detail',
   standalone: true,
-  imports: [ AsyncPipe, DetailContainerComponent, InfoCardComponent, LucideAngularModule, ],
+  imports: [ AsyncPipe, DetailContainerComponent, InfoCardComponent, LucideAngularModule, PhonePipe],
   templateUrl: './tutors-detail.component.html',
   styleUrl: './tutors-detail.component.scss'
 })
