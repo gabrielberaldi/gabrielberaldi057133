@@ -1,6 +1,6 @@
 import { PhonePipe } from './phone.pipe';
 
-fdescribe('PhonePipe', () => {
+describe('PhonePipe', () => {
 
   let pipe: PhonePipe;
 
