@@ -8,5 +8,10 @@
 </app-card-list>
 
 <ng-template let-item #template>
-  <app-pet-card [pet]="item" (viewDetails)="onViewDetails($event)"></app-pet-card>
+  <app-pet-card 
+    [pet]="item"
+    (delete)="onDelete($event)"
+    (edit)="onEdit($event)"
+    (viewDetails)="onViewDetails($event)">
+  </app-pet-card>
 </ng-template>

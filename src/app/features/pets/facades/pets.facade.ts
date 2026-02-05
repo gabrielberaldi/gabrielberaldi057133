@@ -41,9 +41,10 @@ export class PetsFacade {
     this._filters$.next({ ...this._filters$.value, page });
   }
 
-  deletePet(petId: number): Observable<void> {
+  deletePet(petId: number, isOnListPage: boolean = false): Observable<void> {
     return this.petsService.delete(petId).pipe(
       tap(() => {
+        if (isOnListPage) this._filters$.next({ ...this._filters$.getValue() })
         this.toastService.show({ message: 'Pet excluido com sucesso', type: 'success' });
         this.router.navigate(['/shell/pets/list']);
       })

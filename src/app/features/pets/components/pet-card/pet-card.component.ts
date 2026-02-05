@@ -15,14 +15,25 @@ import { ProfileCardComponent } from '../../../../shared/components/profile-card
 export class PetCardComponent {
 
   @Input({ required: true }) pet!: Pet;
+  
+  @Output() delete = new EventEmitter<Pet>();
+  @Output() edit = new EventEmitter<number>();
   @Output() viewDetails = new EventEmitter<number>();
 
   protected readonly PawPrint = PawPrint;
   protected readonly ChevronRight = ChevronRight;
 
-  protected onDetail(): void {
-    if (!this.pet.id) return;
-    this.viewDetails.emit(this.pet.id);
+  protected onDelete(): void {
+    this.delete.emit(this.pet);
   }
+
+  protected onEdit(): void {
+    this.edit.emit(this.pet.id!);
+  }
+
+  protected onDetail(): void {
+    this.viewDetails.emit(this.pet.id!);
+  }
+
 
 }

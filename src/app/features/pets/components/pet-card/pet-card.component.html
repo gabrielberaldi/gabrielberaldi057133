@@ -2,6 +2,8 @@
 	[placeholderIcon]="PawPrint"
 	[imageUrl]="pet.foto?.url"
 	[title]="pet.nome"
+  (delete)="onDelete()"
+  (edit)="onEdit()"
   (detail)="onDetail()">
 
   <div info class="space-y-2">
