@@ -7,11 +7,13 @@ import { TutorsFacade } from '../../facades/tutors.facade';
 import { TutorList } from '../../models/tutor-list.model';
 import { of } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DialogService } from '../../../../shared/components/dialog/services/dialog.service';
 
 describe('TutorsListComponent', () => {
   let component: TutorsListComponent;
   let fixture: ComponentFixture<TutorsListComponent>;
 
+  let dialogServiceSpy: jasmine.SpyObj<DialogService>;
   let shellFacadeSpy: jasmine.SpyObj<ShellFacade>;
   let tutorsFacadeSpy: jasmine.SpyObj<TutorsFacade>;
   let routerSpy: jasmine.SpyObj<Router>;
@@ -26,17 +28,20 @@ describe('TutorsListComponent', () => {
 
   beforeEach(async () => {
 
-    tutorsFacadeSpy = jasmine.createSpyObj('TutorsFacade', ['search', 'changePage' ], { 
+    dialogServiceSpy = jasmine.createSpyObj('DialogService', ['open']);
+    tutorsFacadeSpy = jasmine.createSpyObj('TutorsFacade', ['search', 'changePage', 'deleteTutor' ], { 
       tutorsList$: of(MOCK_TUTOR_LIST),
       loading$: of(false)
     });
 
     shellFacadeSpy = jasmine.createSpyObj('ShellFacade', ['setBreadCrumbs']);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    
 
     await TestBed.configureTestingModule({
       imports: [TutorsListComponent, ReactiveFormsModule],
       providers: [
+        { provide: DialogService, useValue: dialogServiceSpy },
         { provide: TutorsFacade, useValue: tutorsFacadeSpy },
         { provide: ShellFacade, useValue: shellFacadeSpy },
         { provide: Router, useValue: routerSpy }
@@ -70,6 +75,21 @@ describe('TutorsListComponent', () => {
     const tutorId = 123;
     component['onViewDetails'](tutorId);
     expect(routerSpy.navigate).toHaveBeenCalledWith([`/shell/tutors/details/${tutorId}`]);
+  });
+
+  it('should call deleteTutor from facade when dialog is confirmed', () => {
+    const tutor = MOCK_TUTOR_LIST.content[0];
+    dialogServiceSpy.open.and.returnValue(of(true));
+    tutorsFacadeSpy.deleteTutor.and.returnValue(of(void 0));
+    component['onDelete'](tutor);
+    expect(dialogServiceSpy.open).toHaveBeenCalled();
+    expect(tutorsFacadeSpy.deleteTutor).toHaveBeenCalledWith(tutor.id!, true);
+  });
+
+  it('onEdit should navigate to the correct tutor route', () => {
+    const tutorId = 123;
+    component['onEdit'](tutorId);
+    expect(routerSpy.navigate).toHaveBeenCalledWith([`/shell/tutors/edit/${tutorId}`]);
   });
 
 });
