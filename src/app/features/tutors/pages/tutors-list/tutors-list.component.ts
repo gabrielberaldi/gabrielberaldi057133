@@ -31,6 +31,7 @@ export class TutorsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.setBreadcrumbs();
+    this.tutorsFacade.refreshList();
   }
 
   protected onPageChange(page: number): void {

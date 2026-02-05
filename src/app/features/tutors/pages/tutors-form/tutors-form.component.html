@@ -42,9 +42,11 @@
     Vincular Pet
   </div>
   <app-tutor-pet-select
-    [pets]="(petsFacade.petsList$ | async)?.content || []"
+    [petsList]="(petsFacade.petsList$ | async) || { content: [], total: 0, page: 0, pageCount: 0, size: 0 }"
     [searchControl]="petSearchControl"
-    (select)="onConfirmLink($event)">
+    (select)="onConfirmLink($event)"
+    (pageChange)="onPageChanged($event)"
+    >
   </app-tutor-pet-select>
   <div footer>
     <app-button variant="btn-neutral" (action)="onModalClose()">

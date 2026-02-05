@@ -44,7 +44,7 @@ export class TutorsFacade {
   deleteTutor(tutorId: number, isOnListPage: boolean = false): Observable<void> {
     return this.tutorsService.delete(tutorId).pipe(
       tap(() => {
-        if (isOnListPage) this._filters$.next({ ...this._filters$.getValue() })
+        if (isOnListPage) this.refreshList();
         this.toastService.show({ message: 'Tutor excluido com sucesso', type: 'success' });
         this.router.navigate(['/shell/tutors/list'])
       })
@@ -145,6 +145,10 @@ export class TutorsFacade {
       }),
       finalize(() => this._loading$.next(false))
     )
+  }
+
+  refreshList(): void {
+    this._filters$.next({ ...this._filters$.getValue() })
   }
 
   private request(tutorRequest: TutorRequest): Observable<Tutor> {

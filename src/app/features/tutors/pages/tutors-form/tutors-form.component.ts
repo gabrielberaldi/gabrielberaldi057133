@@ -36,6 +36,7 @@ import { FormHeaderComponent } from '../../../../shared/components/form/form-hea
     TutorPetsListComponent, 
     TutorPetSelectComponent
   ],
+  providers: [PetsFacade],
   templateUrl: './tutors-form.component.html',
   styleUrl: './tutors-form.component.scss'
 })
@@ -151,6 +152,10 @@ export class TutorsFormComponent implements OnInit, OnDestroy {
         this.onModalClose();
         this.petSearchControl.reset();
       });
+  }
+
+  protected onPageChanged(page: number): void {
+    this.petsFacade.changePage(page);
   }
 
   protected onUnlinkPet(petId: number): void {

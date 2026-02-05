@@ -14,6 +14,7 @@ export class PaginatorComponent {
   @Input({ required: true }) totalElements = 0;
   @Input({ required: true }) totalPages = 0;
   @Input({ required: true }) foundItensLabel!: string;
+  @Input() showLabel: boolean = true;
 
   @Output() pageChange = new EventEmitter<number>();
 

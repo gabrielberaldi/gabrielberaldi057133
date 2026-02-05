@@ -44,7 +44,7 @@ export class PetsFacade {
   deletePet(petId: number, isOnListPage: boolean = false): Observable<void> {
     return this.petsService.delete(petId).pipe(
       tap(() => {
-        if (isOnListPage) this._filters$.next({ ...this._filters$.getValue() })
+        if (isOnListPage) this.refreshList();
         this.toastService.show({ message: 'Pet excluido com sucesso', type: 'success' });
         this.router.navigate(['/shell/pets/list']);
       })
@@ -118,6 +118,10 @@ export class PetsFacade {
       }),
       finalize(() => this._loading$.next(false))
     )
+  }
+
+  refreshList(): void {
+    this._filters$.next({ ...this._filters$.getValue() });
   }
 
   private request(petRequest: PetRequest): Observable<Pet> {

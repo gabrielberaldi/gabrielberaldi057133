@@ -32,6 +32,7 @@ export class PetsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.setBreadcrumbs();
+    this.petsFacade.refreshList();
   }
 
   protected onPageChange(page: number): void {

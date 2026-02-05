@@ -1,13 +1,14 @@
-<div class="space-y-4">
-  <app-input 
-    placeholder="Buscar pet pelo nome..." 
-    type="text" 
-    [formControl]="searchControl" 
-    [icon]="Search">
-  </app-input>
+<div class="flex flex-col h-full max-h-[70svh]"> <div class="pb-4">
+    <app-input 
+      placeholder="Buscar pet pelo nome..." 
+      type="text" 
+      [formControl]="searchControl" 
+      [icon]="Search">
+    </app-input>
+  </div>
 
-  <div class="py-2 max-h-64 overflow-y-auto space-y-2 mt-2 custom-scrollbar">
-    @for (pet of pets; track pet.id) {
+  <div class="flex-1 overflow-y-auto space-y-2 custom-scrollbar pr-1">
+    @for (pet of petsList.content; track pet.id) {
       <div 
         class="flex items-center justify-between p-3 hover:bg-primary/5 rounded-xl cursor-pointer border border-transparent hover:border-primary/20 transition-all group"
         (click)="select.emit(pet.id!)">
@@ -15,7 +16,7 @@
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-base-300 overflow-hidden">
             @if (pet?.foto?.url) {
-              <img [src]="pet.foto.url" class="object-cover h-full w-full">
+              <img [src]="pet.foto?.url" class="object-cover h-full w-full">
             } @else {
               <div class="flex items-center justify-center h-full opacity-20 text-base-content">
                 <lucide-angular [img]="PawPrint" size="16"></lucide-angular>
@@ -38,4 +39,16 @@
       </div>
     }
   </div>
+
+  @if (petsList.content.length > 0) {
+    <app-paginator
+      foundItensLabel="pets encontrados"
+      [currentPage]="petsList.page"
+      [showLabel]="false"
+      [totalElements]="petsList.total"
+      [totalPages]="petsList.pageCount"
+      (pageChange)="onPageChanged($event)"
+      >
+    </app-paginator>
+  }
 </div>
