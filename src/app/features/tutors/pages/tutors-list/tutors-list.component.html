@@ -8,5 +8,10 @@
 </app-card-list>
 
 <ng-template let-item #template>
-  <app-tutor-card [tutor]="item" (viewDetails)="onViewDetails($event)"></app-tutor-card>
+  <app-tutor-card 
+    [tutor]="item" 
+    (delete)="onDelete($event)"
+    (edit)="onEdit($event)"
+    (viewDetails)="onViewDetails($event)">
+  </app-tutor-card>
 </ng-template>

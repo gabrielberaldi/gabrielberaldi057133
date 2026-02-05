@@ -14,6 +14,9 @@ import { PhonePipe } from '../../../../shared/pipes/phone.pipe';
 export class TutorCardComponent {
 
   @Input({ required: true }) tutor!: Tutor;
+
+  @Output() delete = new EventEmitter<Tutor>();
+  @Output() edit = new EventEmitter<number>();
   @Output() viewDetails = new EventEmitter<number>();
 
   protected readonly ChevronRight = ChevronRight;
@@ -21,9 +24,16 @@ export class TutorCardComponent {
   protected readonly Phone = Phone;
   protected readonly UserRound = UserRound;
 
+  protected onDelete(): void {
+    this.delete.emit(this.tutor);
+  }
+
+  protected onEdit(): void {
+    this.edit.emit(this.tutor.id!);
+  }
+
   protected onDetail(): void {
-    if (!this.tutor.id) return;
-    this.viewDetails.emit(this.tutor.id);
+    this.viewDetails.emit(this.tutor.id!);
   }
 
 }

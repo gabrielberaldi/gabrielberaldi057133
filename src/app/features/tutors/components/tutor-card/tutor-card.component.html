@@ -3,6 +3,8 @@
   [imageUrl]="tutor.foto?.url"
   placeholderLabel="Sem foto disponível"
   [placeholderIcon]="UserRound"
+  (delete)="onDelete()"
+  (edit)="onEdit()"
   (detail)="onDetail()">
 
   <div info class="flex items-center gap-2 text-sm">
