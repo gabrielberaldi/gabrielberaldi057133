@@ -7,10 +7,16 @@
 
 ## Como executar o projeto:
 - Requisitos: **Docker e Docker Compose**
-- Na raiz do projeto, executar `docker compose up --build`
+- Na raiz do projeto, executar `docker compose up --build` ou `docker compose up --build -d` (para executar destacado do terminal)
 - Abrir no navegador a url: **[http://localhost:8080](http://localhost:8080)**
 - Utilizar login e senha: **admin admin**
 
+## Healthcheck do projeto:
+- Após subir o container, pode-se verificar a sáude executando o comando: `docker compose ps`
+- Se o status estiver **(healthy)** a aplicação está de pé e o `Nginx` está servindo o bundle do angular corretamente.
+- Se o status estiver **(unhealthy)** indica que o processo do `Nginx` falhou ou comando de verificação do `curl` não obteve resposta positiva.
+- Se o status estiver **(starting)** o container está aguardando o `start_period` de 20 segundos para validar os arquivos estáticos.
+  
 ## Dependencias:
 - Angular 18.2.0
 - Lucide-angular 0.563.0
@@ -69,7 +75,7 @@ A estrutura seguida foi o padrão `core-shared-feature`:
   As páginas são resultado da composição de componentes globais e locais.
   
 -  **Shared**:
-  Contém todos os recursos reutilizaveis, como: componentes stateless, diretivas e modelos comuns.
+  Contém todos os recursos reutilizaveis, como: componentes stateless, diretivas, pipes e modelos comuns.
 
 ## Gerenciamento de estados:
 
