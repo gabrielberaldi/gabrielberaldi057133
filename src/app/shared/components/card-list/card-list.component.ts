@@ -21,6 +21,7 @@ export class CardListComponent implements OnInit {
   @Input({ required: true }) list!: CardList<any>;
   @Input({ required: true }) foundLabel!: string;
   @Input() placeholder: string = '';
+  @Input() isLoading: boolean = false;
 
   @Output() pageChange = new EventEmitter<number>();
   @Output() search = new EventEmitter<string>();

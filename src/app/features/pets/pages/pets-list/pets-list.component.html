@@ -3,6 +3,7 @@
   placeholder="Buscar pelo nome do pet"
   [cardTemplate]="template"
   [list]="(petsFacade.petsList$ | async) || { content: [], total: 0, page: 0, pageCount: 0, size: 0 }"
+  [isLoading]="(petsFacade.loading$ | async) || false"
   (pageChange)="onPageChange($event)"
   (search)="onSearch($event)">
 </app-card-list>
